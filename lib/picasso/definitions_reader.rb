@@ -7,6 +7,52 @@ module Picasso
 
       class << self
 
+        # Returns the service definition
+        #
+        # It reads the definition .yml files and then it builds the tree of objects for the service
+        def service_definition(base_path)
+          definition_hash = load_definitions(base_path) #service_definition_hash
+
+          build_service_definition(definition_hash)
+        end
+
+        # It builds a Definitions::Service object from a definition hash
+        #
+        # @param [Hash] definition_hash the service metadata
+        def build_service_definition(definition_hash)
+          definition = Picasso::SDoc::Definitions::Service.new
+          definition.name = definition_hash['service']['service']
+          definition.code_name = definition_hash['service']['code_name']
+          definition.version = definition_hash['service']['version']
+
+          if definition_hash['messages']
+            definition.messages = build_messages(definition_hash['messages'])
+          end
+
+          if definition_hash['representations']
+            definition.representations = build_representations(definition_hash['representations'])
+          end
+
+          definition.operations = build_operations(
+            definition_hash['operations'],
+            definition.messages
+          )
+
+          definition.proxy_operations = build_proxy_operations(
+            # As long as services uses a picasso version which don't support proxy operations,
+            # we should default to an empty array.
+            #
+            # Remove the default when all services update picasso gem.
+            definition_hash['proxy_operations'] || []
+          )
+
+          if definition_hash['glossary']
+            definition.glossary = build_glossary(definition_hash['glossary'])
+          end
+
+          definition
+        end
+
         def load_definitions(base_path)
           result = {}
 
@@ -30,73 +76,6 @@ module Picasso
         end
         private :load_yaml
 
-      end
-
-      # Returns the service definition
-      #
-      # It reads the definition .yml files and then it builds the tree of objects for the service
-      def self.service_definition(base_path)
-        definition_hash = load_definitions(base_path) #service_definition_hash
-
-        self.build_service_definition(definition_hash)
-      end
-
-      # Reads and parses the .yml definition files and returns a hash with the contents
-      #def self.service_definition_hash
-      #  service_hash = load_yaml(SERVICE_FILE)
-      #  operations_hash = load_yaml(OPERATIONS_FILE)
-      #  proxy_operations_hash = load_yaml(PROXY_OPERATIONS_FILE)
-      #  representations_hash = load_yaml(REPRESENTATIONS_FILE)
-      #  glossary_hash = load_yaml(GLOSSARY_FILE)
-      #  messages_hash = load_yaml(MESSAGES_FILE)
-      #
-      #  return {
-      #    'service' => service_hash,
-      #    'operations' => operations_hash,
-      #    'proxy_operations' => proxy_operations_hash,
-      #    'representations' => representations_hash,
-      #    'glossary' => glossary_hash,
-      #    'messages' => messages_hash,
-      #  }
-      #end
-
-
-
-      # It builds a Definitions::Service object from a definition hash
-      #
-      # @param [Hash] definition_hash the service metadata
-      def self.build_service_definition(definition_hash)
-        definition = Picasso::SDoc::Definitions::Service.new
-        definition.name = definition_hash['service']['service']
-        definition.code_name = definition_hash['service']['code_name']
-        definition.version = definition_hash['service']['version']
-
-        if definition_hash['messages']
-          definition.messages = build_messages(definition_hash['messages'])
-        end
-
-        if definition_hash['representations']
-          definition.representations = build_representations(definition_hash['representations'])
-        end
-
-        definition.operations = build_operations(
-          definition_hash['operations'],
-          definition.messages
-        )
-
-        definition.proxy_operations = build_proxy_operations(
-          # As long as services uses a picasso version which don't support proxy operations,
-          # we should default to an empty array.
-          #
-          # Remove the default when all services update bancard-picasso gem.
-          definition_hash['proxy_operations'] || []
-        )
-
-        if definition_hash['glossary']
-          definition.glossary = build_glossary(definition_hash['glossary'])
-        end
-
-        definition
       end
 
       private
