@@ -1,24 +1,22 @@
-PROJECT_ROOT = File.expand_path(File.dirname(File.expand_path(__FILE__)) + "/..")
+PROJECT_ROOT = File.expand_path(File.dirname(File.expand_path(__FILE__)) + '/..')
 
 require 'bundler/setup'
-require 'picasso/sdoc'
-
-require 'rspec'
 
 require 'simplecov'
 SimpleCov.start
 
+require 'picasso/sdoc'
+
+require 'rspec'
+
 require 'simplecov-rcov'
 require 'simplecov-rcov-text'
 
-class SimpleCov::Formatter::MergedFormatter
-  def format(result)
-    SimpleCov::Formatter::RcovFormatter.new.format(result)
-    SimpleCov::Formatter::RcovTextFormatter.new.format(result)
-    SimpleCov::Formatter::HTMLFormatter.new.format(result)
-  end
-end
-SimpleCov.formatter = SimpleCov::Formatter::MergedFormatter
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::RcovFormatter,
+  SimpleCov::Formatter::RcovTextFormatter
+]
 
 Dir["#{PROJECT_ROOT}/spec/support/**/*.rb"].each { |f| require f }
 
