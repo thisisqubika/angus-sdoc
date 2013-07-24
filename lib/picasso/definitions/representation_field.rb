@@ -1,28 +1,25 @@
 module Picasso
   module SDoc
 
-    class Definitions::Glossary
-      # Array<GlossaryTerm>
-      attr_accessor :terms
+    class Definitions::RepresentationField
+      attr_accessor :name
+      attr_accessor :description
+      attr_accessor :required
+      attr_accessor :type
+      attr_accessor :elements_type
 
-      def initialize
-        @terms = []
+      def initialize(name = nil, description = nil, required = nil, type = nil, elements_type = nil)
+        self.name= name
+        self.description= description
+        self.required= required
+        self.type= type
+        self.elements_type= elements_type
       end
 
-      def terms_hash
-        hash = {}
-        @terms.each do |term|
-          hash[term.short_name] = term
-        end
-        hash
-      end
-
-      def terms_hash_with_long_names
-        hash = {}
-        @terms.each do |term|
-          hash[term.long_name] = term
-        end
-        hash
+      def == (other)
+        other.kind_of?(Definitions::RepresentationField) &&
+          self.name == other.name && self.description == other.description &&
+          self.required == other.required && self.type == other.type && self.elements_type == other.elements_type
       end
     end
 

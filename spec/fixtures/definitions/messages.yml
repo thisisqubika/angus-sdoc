@@ -1,0 +1,139 @@
+InvalidJsonError:
+  status_code: 422
+  level: error
+  description: Invalid json.
+
+UnauthorizedOperationError:
+  status_code: 403
+  level: error
+  description: Do not allow operation access.
+
+VerificationNotFoundError:
+  status_code: 404
+  level: error
+  description: Verification does not exists.
+
+BuyNotFoundError:
+  status_code: 404
+  level: error
+  description: Unexisting buy.
+
+RollbackSuccessful:
+  status_code: 200
+  level: info
+  description: Rollback Successful.
+
+ApplicationCommunicationError:
+  status_code: 409
+  level: error
+  description: Application Communication.
+
+PaymentFailureError:
+  status_code: 422
+  level: error
+  description: Payment Failure.
+
+PaymentNotFoundError:
+  status_code: 404
+  level: error
+  description: Payment Not Found.
+
+VerificationFailureError:
+  status_code: 422
+  level: error
+  description: Verification Failure.
+
+ApplicationNotFoundError:
+  status_code: 404
+  level: error
+  description: Application Not Found.
+
+ApplicationCredentialNotFoundError:
+  status_code: 404
+  level: error
+  description: Application Credential Not Found.
+
+CantCreateApplicationCredentialError:
+  status_code: 409
+  level: error
+  description: Can't Create Application Credential.
+
+ServiceOperationNotFoundError:
+  status_code: 404
+  level: error
+  description: Service Operation Not Found.
+
+AlreadyAuthorizedError:
+  status_code: 409
+  level: error
+  description: Already Authorized.
+
+ConfirmationNotFoundError:
+  status_code: 404
+  level: error
+  description: Confirmation Not Found.
+
+InvalidPublicKeyError:
+  status_code: 403
+  level: error
+  description: Invalid Public Key.
+
+PublicKeyNotFoundError:
+  status_code: 404
+  level: error
+  description: Public Key Not Found.
+
+InvalidOperationError:
+  status_code: 403
+  level: error
+  description: Invalid Operation.
+
+InvalidTokenError:
+  status_code: 403
+  level: error
+  description: Invalid Token.
+
+PosCommunicationError:
+  status_code: 409
+  level: error
+  description: Pos Communication.
+
+BlankCommerceIdError:
+  status_code: 409
+  level: error
+  description: Blank Commerce Id.
+
+BlankCommerceBranchIdError:
+  status_code: 409
+  level: error
+  description: Blank Commerce Branch Id.
+
+BlankNameError:
+  status_code: 409
+  level: error
+  description: Blank Name.
+
+BlankLogoResourceIdError:
+  status_code: 409
+  level: error
+  description: Blank Logo Resource Id.
+
+BlankConfirmPathError:
+  status_code: 409
+  level: error
+  description: Blank Confirm Path.
+
+BlankVerificationConfirmPathError:
+  status_code: 409
+  level: error
+  description: Blank Verification Confirm Path.
+
+CardInvalidError:
+  status_code: 422
+  level: error
+  description: Card Invalid.
+
+AlreadyRollbackedError:
+  status_code: 422
+  level: error
+  description: Already Rollbacked.

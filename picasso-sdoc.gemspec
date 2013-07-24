@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
 
   # Testing
   spec.add_development_dependency('rspec', '~> 2.12')
+  spec.add_development_dependency('faker')
   spec.add_development_dependency('simplecov', '0.7.1')
   spec.add_development_dependency('simplecov-rcov', '0.2.3')
   spec.add_development_dependency('simplecov-rcov-text', '0.0.2')

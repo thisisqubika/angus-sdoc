@@ -1,0 +1,3 @@
+InvalidJsonError:
+  status_code: 422
+  description: Invalid Json.

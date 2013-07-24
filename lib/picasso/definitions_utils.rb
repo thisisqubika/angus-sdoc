@@ -2,10 +2,10 @@ module Picasso
   module SDoc
     module DefinitionsUtils
 
-      # It builds a new definition hash based on the given operation names
+      # Builds a new definition hash based on the given operation names
       #
       # @param [Hash] definition Service definition
-      # @param [Array<String>] operation_names Operations
+      # @param [Array<String>] operation_names the names of the operations
       #
       # @return [Hash]
       def self.slice(definition, operation_names)
@@ -33,6 +33,7 @@ module Picasso
             messages += (operation['messages'] || []).map do |message|
               message['key']
             end
+
           end
         end
 

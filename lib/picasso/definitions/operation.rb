@@ -14,15 +14,17 @@ module Picasso
       attr_accessor :request_elements
       attr_accessor :response_elements
 
-      # Returns the first message that matches the given key and level
+      # Returns the first message that matches the given key and level.
       #
-      # @param [String] key The key of the message
-      # @param [String] level The level of the message
-      #   Possible values are the *_LEVEL constants from {Message}
+      # @param [String] key the key of the message.
+      # @param [String] level the level of the message.
+      #   Possible values are the *_LEVEL constants from {Message}.
       #
-      # @return [Message] The message or nil if no one matches
+      # @return [Message] the message or nil if no one matches
       def message(key, level)
-        level = level.downcase
+        return nil if self.messages.nil?
+
+        level &&= level.downcase
         self.messages.find { |message| message.key == key && message.level.downcase == level }
       end
     end
