@@ -1,7 +1,7 @@
 module Picasso
   module SDoc
-
     class Definitions::RepresentationField
+
       attr_accessor :name
       attr_accessor :description
       attr_accessor :required
@@ -21,7 +21,7 @@ module Picasso
           self.name == other.name && self.description == other.description &&
           self.required == other.required && self.type == other.type && self.elements_type == other.elements_type
       end
-    end
 
+    end
   end
 end

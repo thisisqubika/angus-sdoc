@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe Picasso::SDoc::Definitions::ProxyOperation do
+require 'spec/json_representations/representations'
+
+describe Picasso::SDoc::Definitions::Representation do
+  include JsonRepresentations::Representations
 
   describe 'attributes' do
-    it { should have_attribute(:code_name) }
-    it { should have_attribute(:path) }
-    it { should have_attribute(:method) }
-
-    it { should have_attribute(:service_name) }
+    it { should have_attribute(:name) }
+    it { should have_attribute(:fields) }
   end
 
 end

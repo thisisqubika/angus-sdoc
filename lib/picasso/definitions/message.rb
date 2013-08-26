@@ -1,6 +1,5 @@
 module Picasso
   module SDoc
-
     class Definitions::Message
 
       ERROR_LEVEL = 'error'
@@ -16,6 +15,5 @@ module Picasso
       attr_accessor :text
 
     end
-
   end
 end

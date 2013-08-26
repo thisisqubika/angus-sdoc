@@ -1,7 +1,7 @@
 module Picasso
   module SDoc
-
     class Definitions::Operation
+
       attr_accessor :name
       attr_accessor :code_name
       attr_accessor :description
@@ -27,7 +27,7 @@ module Picasso
         level &&= level.downcase
         self.messages.find { |message| message.key == key && message.level.downcase == level }
       end
-    end
 
+    end
   end
 end

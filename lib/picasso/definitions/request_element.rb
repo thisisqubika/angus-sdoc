@@ -1,7 +1,7 @@
 module Picasso
   module SDoc
-
     class Definitions::RequestElement
+
       attr_accessor :name
       attr_accessor :description
       attr_accessor :required
@@ -11,7 +11,7 @@ module Picasso
       attr_accessor :elements_type
 
       def initialize(name = nil, description = nil, required = nil, type = nil,
-          constraints = nil, valid_values = nil, elements_type = nil)
+                     constraints = nil, valid_values = nil, elements_type = nil)
         self.name= name if name
         self.description= description if description
         self.required= required if required
@@ -31,6 +31,5 @@ module Picasso
       end
 
     end
-
   end
 end

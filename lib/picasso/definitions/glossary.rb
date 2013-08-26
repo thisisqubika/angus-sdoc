@@ -1,6 +1,5 @@
 module Picasso
   module SDoc
-
     class Definitions::Glossary
 
       attr_accessor :terms
@@ -45,7 +44,7 @@ module Picasso
         end
         hash
       end
-    end
 
+    end
   end
 end

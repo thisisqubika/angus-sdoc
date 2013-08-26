@@ -1,6 +1,5 @@
 module Picasso
   module SDoc
-
     class DefinitionsReader
 
       CONFIGURATIONS = %w{service operations proxy_operations representations glossary messages}
@@ -10,6 +9,10 @@ module Picasso
         # Returns the service definition
         #
         # It reads the definition .yml files and then it builds the tree of objects for the service
+        #
+        # @param [String] base_path
+        #
+        # @return [Picasso::SDoc::Definitions::Service]
         def service_definition(base_path)
           definition_hash = load_definitions(base_path)
 
@@ -19,6 +22,8 @@ module Picasso
         # It builds a Definitions::Service object from a definition hash
         #
         # @param [Hash] definition_hash the service metadata
+        #
+        # @return [Picasso::SDoc::Definitions::Service]
         def build_service_definition(definition_hash)
           definition = Picasso::SDoc::Definitions::Service.new
           definition.name = definition_hash['service']['service']
@@ -59,7 +64,7 @@ module Picasso
           Dir["#{base_path}/{#{CONFIGURATIONS.join(',')}}.yml"].each do |config_file|
             namespace = File.basename(config_file, '.*')
 
-            result[namespace] = YAML.load_file(config_file)
+            result[namespace] = YAML.load_file(config_file) || {}
           end
 
           result
@@ -249,8 +254,8 @@ module Picasso
         end
         private :build_glossary
 
-
       end
+
     end
   end
 end

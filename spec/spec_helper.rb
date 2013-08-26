@@ -1,5 +1,3 @@
-PROJECT_ROOT = File.expand_path(File.dirname(File.expand_path(__FILE__)) + '/..')
-
 require 'bundler/setup'
 
 require 'simplecov'
@@ -8,7 +6,8 @@ SimpleCov.start
 require 'picasso/sdoc'
 
 require 'rspec'
-require 'faker'
+require 'json_expressions/rspec'
+require 'factory_girl'
 
 require 'simplecov-rcov'
 require 'simplecov-rcov-text'
@@ -19,7 +18,7 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   SimpleCov::Formatter::RcovTextFormatter
 ]
 
-Dir["#{PROJECT_ROOT}/spec/support/**/*.rb"].each { |f| require f }
+Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
 
@@ -28,4 +27,9 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = 'random'
+
+  config.before(:suite) do
+    FactoryGirl.find_definitions
+  end
+
 end

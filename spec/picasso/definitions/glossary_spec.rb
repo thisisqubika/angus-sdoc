@@ -1,10 +1,12 @@
 require 'spec_helper'
 
+require 'spec/json_representations/glossaries'
+
 describe Picasso::SDoc::Definitions::Glossary do
+  include JsonRepresentations::Glossaries
 
   let(:terms_hash_attribute) { {} }
-  let(:glossary) { Picasso::SDoc::Definitions::Glossary.new(terms_hash_attribute) }
-  subject { glossary }
+  subject(:glossary) { Picasso::SDoc::Definitions::Glossary.new(terms_hash_attribute) }
 
   describe 'attributes' do
     it { should have_attribute(:terms) }

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Picasso::SDoc::DefinitionsReader do
 
   describe '.service_definition' do
-    let(:fixtures_path) { "#{PROJECT_ROOT}/spec/fixtures" }
+    let(:fixtures_path) { 'spec/fixtures' }
     let(:base_path)     { "#{fixtures_path}/definitions" }
 
     subject { Picasso::SDoc::DefinitionsReader.service_definition(base_path) }

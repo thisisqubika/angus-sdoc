@@ -1,7 +1,11 @@
 require 'spec_helper'
 
+require 'spec/json_representations/operations'
+
 module Picasso::SDoc::Definitions
+
   describe Operation do
+    include JsonRepresentations::Operations
 
     describe 'attributes' do
       it { should have_attribute(:name) }
