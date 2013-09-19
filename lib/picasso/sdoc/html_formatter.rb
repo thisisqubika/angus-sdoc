@@ -8,9 +8,9 @@ module Picasso
 
         # Generates the html for the service definition.
         #
-        # @param [Picasso::SDoc::Definitions::Service]
+        # @param [Picasso::SDoc::Definitions::Service] service_definition the service definition.
         #
-        # @return [String] The generated html.
+        # @return [String] the generated html.
         def format_service(service_definition)
           @service = service_definition
 

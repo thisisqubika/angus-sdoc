@@ -2,12 +2,14 @@ module Picasso
   module SDoc
     class Definitions::Glossary
 
+      # @!attribute [rw] terms
+      #   @return [GlossaryTerm] The terms of the glossary.
       attr_accessor :terms
 
-      # Initializes a new Glossary and it's terms.
+      # Initializes a new Glossary and its terms.
       #
-      # @param [Hash<String, Hash<String, String>] terms_hash this Hash contains GlossaryTerm#short_name
-      #   as key and other Hash with the other attributes of the GlossaryTerm as a value.
+      # @param [Hash<String, Hash>] terms_hash The hash contains GlossaryTerm#short_name as the key
+      #   and a hash containing GlossaryTerm#long_name and GlossaryTerm#description as a value.
       #
       # @example
       #
@@ -23,7 +25,7 @@ module Picasso
 
       # Returns a hash with short name as key and the term as the value.
       #
-      # @return Hash<String, GlossaryTerm>
+      # @return [Hash<String, GlossaryTerm>]
       def terms_hash
         hash = {}
 
@@ -36,7 +38,7 @@ module Picasso
 
       # Returns a hash with long name as key and the term as the value.
       #
-      # @return Hash<String, GlossaryTerm>
+      # @return [Hash<String, GlossaryTerm>]
       def terms_hash_with_long_names
         hash = {}
         @terms.each do |term|
