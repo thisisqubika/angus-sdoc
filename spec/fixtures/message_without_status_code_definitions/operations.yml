@@ -1,0 +1,32 @@
+create_multi_buy:
+  name: Create multi-item buy.
+  description: |
+    Begins buy process.
+
+  path: /multi_buy
+  method: post
+
+  request:
+    - element: public_key
+      description: Store Public key
+      required: true
+      type: string
+
+    - element: operation
+      description: Operation Data
+      required: true
+      type: multi_buy
+
+  response:
+    - element: process_id
+      description: Process Id
+      required: false
+      type: string
+
+  messages:
+    - key: InvalidJsonError
+    - key: UnauthorizedOperationError
+    - key: ApplicationNotFoundError
+    - key: InvalidTokenError
+    - key: InvalidPublicKeyError
+    - key: InvalidOperationError

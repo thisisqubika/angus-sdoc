@@ -1,6 +1,9 @@
 require 'spec_helper'
 
+require 'spec/json_representations/messages'
+
 describe Picasso::SDoc::Definitions::Message do
+  include JsonRepresentations::Messages
 
   describe 'constants' do
     context 'ERROR_LEVEL' do

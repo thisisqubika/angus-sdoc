@@ -1,0 +1,41 @@
+rollback_payment_multi:
+  - field: action
+    description: Confirmation action
+    required: true
+    type: string
+
+  - field: response
+    description: Service response
+    required: true
+    type: string
+
+  - field: response_details
+    description: Service response details
+    required: true
+    type: string
+
+  - field: shop_process_id
+    description: Internal store id
+    required: true
+    type: integer
+
+  - field: token
+    description: Authorization token.
+    required: true
+    type: string
+
+confirmation:
+  - field: id
+    description: Confirmation Id
+    required: true
+    type: integer
+
+  - field: sent_data
+    description: Sent data to Application
+    required: true
+    type: string
+
+  - field: commerce_response
+    description: Application response
+    required: true
+    type: string

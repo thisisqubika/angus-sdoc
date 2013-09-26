@@ -1,0 +1,1 @@
+require_relative 'invalid_service_message'

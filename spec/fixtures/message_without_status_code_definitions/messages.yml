@@ -1,0 +1,3 @@
+InvalidJsonError:
+  level: error
+  description: Json Invalid.

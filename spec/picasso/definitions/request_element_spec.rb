@@ -1,6 +1,9 @@
 require 'spec_helper'
 
+require 'spec/json_representations/request_elements'
+
 describe Picasso::SDoc::Definitions::RequestElement do
+  include JsonRepresentations::RequestElements
 
   describe 'attributes' do
     it { should have_attribute(:name) }

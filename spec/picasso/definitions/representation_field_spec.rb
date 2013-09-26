@@ -1,6 +1,9 @@
 require 'spec_helper'
 
+require 'spec/json_representations/representation_fields'
+
 describe Picasso::SDoc::Definitions::RepresentationField do
+  include JsonRepresentations::RepresentationFields
 
   describe 'attributes' do
     it { should have_attribute(:name) }

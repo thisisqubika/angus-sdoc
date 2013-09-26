@@ -1,0 +1,19 @@
+fic:
+  long_name: financial_institution_code
+  description: Financial institution code
+
+an:
+  long_name: account_number
+  description: Account number
+
+doc_type:
+  long_name: document_type
+  description: Document type
+
+doc_nbr:
+  long_name: document_number
+  description: Document number
+
+dob:
+  long_name: date_of_birth
+  description: Birth date

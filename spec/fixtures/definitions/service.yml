@@ -1,0 +1,3 @@
+service: My Service
+code_name: service
+version: '1.0'
