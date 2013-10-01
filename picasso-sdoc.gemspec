@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Picasso::SDoc::VERSION
   spec.authors       = ['Pablo Ifran', 'Adrian Gomez', 'Gianfranco Zas']
   spec.email         = %w[picasso@moove-it.com]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{sdoc}
+  spec.summary       = %q{sdoc}
   spec.homepage      = ''
   spec.license       = 'MIT'
 
