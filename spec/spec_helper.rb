@@ -3,7 +3,7 @@ require 'bundler/setup'
 require 'simplecov'
 SimpleCov.start
 
-require 'picasso/sdoc'
+require 'angus/sdoc'
 
 require 'rspec'
 require 'json_expressions/rspec'

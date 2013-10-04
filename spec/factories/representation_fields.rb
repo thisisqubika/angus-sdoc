@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  factory :representation_field, :class => Picasso::SDoc::Definitions::RepresentationField do
+  factory :representation_field, :class => Angus::SDoc::Definitions::RepresentationField do
     factory :single_representation_field do
       name            'user_id'
       description     'The user identifier'

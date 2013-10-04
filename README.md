@@ -1,4 +1,4 @@
-# Picasso::Sdoc
+# Angus::Sdoc
 
 TODO: Write a gem description
 
@@ -6,7 +6,7 @@ TODO: Write a gem description
 
 Add this line to your application's Gemfile:
 
-    gem 'picasso-sdoc'
+    gem 'angus-sdoc'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install picasso-sdoc
+    $ gem install angus-sdoc
 
 ## Usage
 

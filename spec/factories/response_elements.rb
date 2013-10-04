@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  factory :response_element, :class => Picasso::SDoc::Definitions::ResponseElement do
+  factory :response_element, :class => Angus::SDoc::Definitions::ResponseElement do
     factory :single_response_element do
       name            'user'
       description     'The user attributes'
