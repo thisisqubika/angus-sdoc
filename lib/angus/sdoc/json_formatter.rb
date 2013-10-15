@@ -269,15 +269,16 @@ module Angus
           end
 
           proxy_operations = service_definition.proxy_operations.inject({}) do |result, operation|
-            result.merge({operation.code_name => proxy_operation_for_json(operation)})
+            result.merge({ operation.code_name => proxy_operation_for_json(operation) })
           end
 
           representations = service_definition.representations.inject({}) do |result, representation|
-            result.merge({representation.name => representation_for_json(representation)})
+            result.merge({ representation.name => representation_for_json(representation) })
           end
 
-          messages = service_definition.messages.map do |message_name, message|
-            message_for_json(message)
+          messages = service_definition.messages.inject({}) do |result, message_data|
+            message_name, message = message_data
+            result.merge({ message_name => message_for_json(message) })
           end
 
           {
