@@ -261,10 +261,10 @@ module Angus
         # @option return [(see .message_for_json)] :glossary
         def service_for_json(service_definition)
           operations = service_definition.operations.inject({}) do |result, (namespace, operations)|
+            result[namespace] ||= {}
             operations.each do |operation|
-              result.merge!({namespace => {operation.code_name => operation_for_json(operation)}})
+              result[namespace][operation.code_name] = operation_for_json(operation)
             end
-
             result
           end
 

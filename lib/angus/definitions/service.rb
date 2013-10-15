@@ -71,7 +71,7 @@ module Angus
       #
       # @param [Service] other The service to be merged.
       def merge(other)
-        self.operations += other.operations
+        self.operations.merge!(other.operations)
         self.representations += other.representations
 
         self.messages.merge!(other.messages)
