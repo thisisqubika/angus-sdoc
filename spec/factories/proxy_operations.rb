@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  factory :proxy_operation, :class => Picasso::SDoc::Definitions::ProxyOperation do
+  factory :proxy_operation, :class => Angus::SDoc::Definitions::ProxyOperation do
     code_name       'get_users'
     path            'Get user'
     method          'get'

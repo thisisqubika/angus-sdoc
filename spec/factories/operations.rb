@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  factory :operation, :class => Picasso::SDoc::Definitions::Operation do
+  factory :operation, :class => Angus::SDoc::Definitions::Operation do
     code_name             'get_users'
     name                  'Get users'
     description           'Returns the users list'

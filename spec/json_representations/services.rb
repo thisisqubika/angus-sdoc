@@ -13,8 +13,12 @@ module JsonRepresentations
     include Glossaries
 
     def service_representation(service)
-      operations = service.operations.inject({}) do |result, operation|
-        result.merge({ operation.code_name => operation_representation(operation) })
+      operations = service.operations.inject({}) do |result, (namespace, operations)|
+        operations.each do |operation|
+          result.merge!({namespace => {operation.code_name => operation_representation(operation)}})
+        end
+
+        result
       end
 
       proxy_operations = service.proxy_operations.inject({}) do |result, proxy_operation|

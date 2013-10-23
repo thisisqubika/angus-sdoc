@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  factory :request_element, :class => Picasso::SDoc::Definitions::RequestElement do
+  factory :request_element, :class => Angus::SDoc::Definitions::RequestElement do
     factory :single_request_element do
       name            'user'
       description     'The user attributes'
