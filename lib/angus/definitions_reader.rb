@@ -37,8 +37,9 @@ module Angus
             definition.representations = build_representations(definition_hash['representations'])
           end
 
+          operations_hash = definition_hash['operations'] || {}
           definition.operations = build_operations(
-            definition_hash['operations'],
+            operations_hash,
             definition.messages
           )
 
@@ -211,6 +212,8 @@ module Angus
           result = {}
 
           operations_hash.each do |namespace, operations|
+            operations = {} unless operations.is_a?(Hash)
+
             operations.each do |code_name, op_metadata|
               operation = Angus::SDoc::Definitions::Operation.new
 
