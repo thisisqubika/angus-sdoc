@@ -14,7 +14,7 @@ module JsonRepresentations
 
     def service_representation(service)
       operations = service.operations.inject({}) do |result, operation|
-        result.merge({operation.code_name => operation_representation(operation)})
+        result.merge({ operation.code_name => operation_representation(operation) })
       end
 
       proxy_operations = service.proxy_operations.inject({}) do |result, proxy_operation|
@@ -22,7 +22,12 @@ module JsonRepresentations
       end
 
       representations = service.representations.inject({}) do |result, representation|
-        result.merge({representation.name => representation_representation(representation)})
+        result.merge({ representation.name => representation_representation(representation) })
+      end
+
+      messages = service.messages.inject({}) do |result, message_data|
+        key, message =  message_data
+        result.merge({ key => message_representation(message) })
       end
 
       {
@@ -34,7 +39,7 @@ module JsonRepresentations
         :operations => operations,
         :proxy_operations => proxy_operations,
         :representations => representations,
-        :messages => service.messages.map { |key, message| message_representation(message) },
+        :messages => messages,
         :glossary => glossary_representation(service.glossary)
       }
     end

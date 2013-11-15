@@ -2,12 +2,13 @@ module Picasso
   module SDoc
     module DefinitionsUtils
 
-      # Builds a new definition hash based on the given operation names
+      # Builds a new definition hash based on the given operation names.
+      # @todo Explain better this method. Needs refactor?
       #
-      # @param [Hash] definition Service definition
-      # @param [Array<String>] operation_names the names of the operations
+      # @param [Hash] definition The service definition.
+      # @param [Array<String>] operation_names The names of the operations.
       #
-      # @return [Hash]
+      # @return [Hash] the definition.
       def self.slice(definition, operation_names)
         result = {
           :operations => {},
@@ -48,14 +49,14 @@ module Picasso
         result
       end
 
-      # Inserts a representation, and its children, into a destination.
+      # Inserts a representation and its children into a destination.
       #
-      # The purpose of this method is to be used as an utility method from a method which
-      # selects a subset of representations.
+      # @note The purpose of this method is to be used as an utility method from a method which
+      #   selects a subset of representations.
       #
-      # @param [String] name Representation name
-      # @param [Hash] representations Source of representations
-      # @param [Hash] into Destination
+      # @param [String] name The representation name.
+      # @param [Hash] representations The source of the representations.
+      # @param [Hash] into the destination hash.
       def self.include_representation(name, representations, into)
         if representation = representations[name]
           into[name] = representation

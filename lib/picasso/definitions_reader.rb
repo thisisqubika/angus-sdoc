@@ -6,24 +6,22 @@ module Picasso
 
       class << self
 
-        # Returns the service definition
+        # Returns the tree of objects for the service.
         #
-        # It reads the definition .yml files and then it builds the tree of objects for the service
+        # @param [String] base_path The base path of the YML files.
         #
-        # @param [String] base_path
-        #
-        # @return [Picasso::SDoc::Definitions::Service]
+        # @return [Picasso::SDoc::Definitions::Service] The service definition.
         def service_definition(base_path)
           definition_hash = load_definitions(base_path)
 
           build_service_definition(definition_hash)
         end
 
-        # It builds a Definitions::Service object from a definition hash
+        # It builds a Definitions::Service object from a service metadata.
         #
-        # @param [Hash] definition_hash the service metadata
+        # @param [Hash] definition_hash The service metadata.
         #
-        # @return [Picasso::SDoc::Definitions::Service]
+        # @return [Picasso::SDoc::Definitions::Service] The service definition.
         def build_service_definition(definition_hash)
           definition = Picasso::SDoc::Definitions::Service.new
           definition.name = definition_hash['service']['service']
@@ -58,6 +56,7 @@ module Picasso
           definition
         end
 
+        # Reads the YML files in the given base path and returns a hash with the results loaded.
         def load_definitions(base_path)
           result = {}
 
@@ -71,11 +70,19 @@ module Picasso
         end
         private :load_definitions
 
-        # Builds Definitions::Message objects for each message metadata
+        # Builds Definitions::Message objects for each message metadata.
         #
-        # @param [Hash] messages_hash Hash of messages metadata
+        # @param [Hash] messages_hash The metadata messages.
+        # @example metadata message example
+        #   {'InvalidJsonError' =>
+        #     {
+        #       'status_code' => 422,
+        #       'level'       => 'error',
+        #       'description' => 'Invalid json'
+        #     }
+        #   }
         #
-        # @return [Hash<String, Message>]
+        # @return [Hash<String, Message>] The hash with the messages.
         def build_messages(messages_hash)
           messages = {}
 
@@ -90,13 +97,16 @@ module Picasso
 
         # Builds Definitions::Message with the message data.
         #
-        # @param [String] key
-        # @param [String] level
-        # @param [String] status_code
-        # @param [String] description
-        # @param [String] text
+        # @param [String] key The message key.
+        # @param [String] level The message level.
+        # @param [String] status_code The message status code.
+        # @param [String] description The message description.
+        # @param [String] text The message text.
         #
-        # @return [Message]
+        # @raise [Picasso::SDoc::InvalidServiceMessage] if the level or the status code
+        #   was not specified.
+        #
+        # @return [Message] the message.
         def build_message(key, level, status_code, description, text)
           unless level
             raise Picasso::SDoc::InvalidServiceMessage.new(key ,'Can not create message without level.')
@@ -119,7 +129,7 @@ module Picasso
 
         # Builds Definitions::ProxyOperation objects for each proxy operation metadata.
         #
-        # @param [Hash] representations_hash Hash of proxy operations metadata
+        # @param [Hash] proxy_operations_hash The proxy operations metadata.
         def build_proxy_operations(proxy_operations_hash)
           proxy_operations_hash.map do |code_name, fields|
             proxy_op = Picasso::SDoc::Definitions::ProxyOperation.new
@@ -134,9 +144,15 @@ module Picasso
         end
         private :build_proxy_operations
 
-        # Builds Definitions::Representation objects for each representation metadata
+        # Builds Definitions::Representation objects for each representation metadata.
         #
-        # @param [Hash] representations_hash Hash of representations metadata
+        # @param [Hash] representations_hash The representations metadata.
+        # @option [String] :name
+        # @option [String] :field
+        # @option [String] :description
+        # @option [String] :type
+        # @option [String] :required
+        # @option [String] :elements_type
         def build_representations(representations_hash)
           representations_hash.map do |name, fields|
             representation = Picasso::SDoc::Definitions::Representation.new
@@ -157,18 +173,20 @@ module Picasso
         end
         private :build_representations
 
-        # Builds Definitions::Operation objects for each operation metadata
+        # @todo Clarify the method explaining in a better way the note.
+        # @todo Refactor?
+        # Builds Definitions::Operation objects for each operation metadata.
         #
-        # It also builds and associates:
-        # - request elements
-        # - uri elements
-        # - messages
-        # - response elements
+        # @note It also builds and associates:
+        #   - request elements
+        #   - uri elements
+        #   - messages
+        #   - response elements
         #
-        # @param [Hash] operations_hash Hash of operations metadata
-        # @param [Array<Message>] messages Hash of service messages
+        # @param [Hash] operations_hash The operations' metadata.
+        # @param [Array<Message>] messages The service messages.
         #
-        # @return [Array<Operation>]
+        # @return [Array<Operation>] the list of operations.
         def build_operations(operations_hash, messages)
           operations_hash.map do |code_name, op_metadata|
             operation = Picasso::SDoc::Definitions::Operation.new
@@ -242,13 +260,12 @@ module Picasso
         end
         private :build_operations
 
-        # Builds a glossary from a glossary_hash
+        # Builds a glossary from a hash.
         #
-        # @param [Hash<String, Hash<String, String>] glossary_hash this Hash
-        #   contains GlossaryTerm#short_name as key and other Hash with the
-        #   other attributes of the GlossaryTerm as a value.
-        #
-        # @return [Glossary] build from the glossary_hash
+        # @param [Hash<String, Hash>] glossary_hash The hash contains GlossaryTerm#short_name
+        #   as the key and a hash containing GlossaryTerm#long_name and GlossaryTerm#description
+        #   as a value.
+        # @return [Glossary] the glossary
         def build_glossary(glossary_hash)
           Picasso::SDoc::Definitions::Glossary.new(glossary_hash)
         end

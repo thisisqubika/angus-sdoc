@@ -27,7 +27,8 @@ module Picasso
 
         # Returns a hash with the glossary data.
         #
-        # @param [Picasso::SDoc::Definitions::Glossary]
+        # @param [Picasso::SDoc::Definitions::Glossary] glossary_definition
+        #   The glossary definition.
         #
         # @return [Hash]
         # @option return [(see .glossary_term_for_json)] :<term.short_name>
@@ -39,7 +40,8 @@ module Picasso
 
         # Returns a hash with the glossary term data.
         #
-        # @param [Picasso::SDoc::Definitions::GlossaryTerm]
+        # @param [Picasso::SDoc::Definitions::GlossaryTerm] glossary_term_definition
+        #   The glossary term definition.
         #
         # @return [Hash]
         # @option return [String] :long_name
@@ -53,7 +55,8 @@ module Picasso
 
         # Returns a hash with the message data.
         #
-        # @param [Picasso::SDoc::Definitions::Message]
+        # @param [Picasso::SDoc::Definitions::Message] message_definition
+        #   The message definition.
         #
         # @return [Hash]
         # @option return [String] :key
@@ -71,7 +74,8 @@ module Picasso
 
         # Returns a hash with the operation data.
         #
-        # @param [Picasso::SDoc::Definitions::Operation]
+        # @param [Picasso::SDoc::Definitions::Operation] operation_definition
+        #   The operation definition.
         #
         # @return [Hash]
         # @option return [String] :name
@@ -126,7 +130,8 @@ module Picasso
 
         # Returns a hash with the proxy operation data.
         #
-        # @param [Picasso::SDoc::Definitions::ProxyOperation]
+        # @param [Picasso::SDoc::Definitions::ProxyOperation] proxy_operation_definition
+        #   The proxy operation definition.
         #
         # @return [Hash]
         # @option return [String] :path
@@ -142,7 +147,8 @@ module Picasso
 
         # Returns a hash with the representation data.
         #
-        # @param [Picasso::SDoc::Definitions::Representation]
+        # @param [Picasso::SDoc::Definitions::Representation] representation_definition
+        #   The representation definition.
         #
         # @return [Array<(see .representation_field_for_json)>]
         def representation_for_json(representation_definition)
@@ -153,7 +159,8 @@ module Picasso
 
         # Returns a hash with the representation field data.
         #
-        # @param [Picasso::SDoc::Definitions::RepresentationField]
+        # @param [Picasso::SDoc::Definitions::RepresentationField] representation_field_definition
+        #   The representation field definition.
         #
         # @return [Hash]
         # @option return [String] :element
@@ -181,7 +188,8 @@ module Picasso
 
         # Returns a hash with the request element data.
         #
-        # @param [Picasso::SDoc::Definitions::RequestElement]
+        # @param [Picasso::SDoc::Definitions::RequestElement] request_element_definition
+        #   The request element definition.
         #
         # @return [Hash]
         # @option return [String] :element
@@ -209,7 +217,8 @@ module Picasso
 
         # Returns a hash with the response element data.
         #
-        # @param [Picasso::SDoc::Definitions::ResponseElement]
+        # @param [Picasso::SDoc::Definitions::ResponseElement] response_element_definition
+        #   The response element definition.
         #
         # @return [Hash]
         # @option return [String] :element
@@ -237,7 +246,8 @@ module Picasso
 
         # Generates the json for the service definition.
         #
-        # @param [Picasso::SDoc::Definitions::Service]
+        # @param [Picasso::SDoc::Definitions::Service] service_definition
+        #   The service definition.
         #
         # @return [Hash]
         # @option return [Hash] :service
@@ -251,19 +261,20 @@ module Picasso
         # @option return [(see .message_for_json)] :glossary
         def service_for_json(service_definition)
           operations = service_definition.operations.inject({}) do |result, operation|
-            result.merge({operation.code_name => operation_for_json(operation)})
+            result.merge({ operation.code_name => operation_for_json(operation) })
           end
 
           proxy_operations = service_definition.proxy_operations.inject({}) do |result, operation|
-            result.merge({operation.code_name => proxy_operation_for_json(operation)})
+            result.merge({ operation.code_name => proxy_operation_for_json(operation) })
           end
 
           representations = service_definition.representations.inject({}) do |result, representation|
-            result.merge({representation.name => representation_for_json(representation)})
+            result.merge({ representation.name => representation_for_json(representation) })
           end
 
-          messages = service_definition.messages.map do |message_name, message|
-            message_for_json(message)
+          messages = service_definition.messages.inject({}) do |result, message_data|
+            message_name, message = message_data
+            result.merge({ message_name => message_for_json(message) })
           end
 
           {
@@ -282,7 +293,8 @@ module Picasso
 
         # Returns a hash with the uri element data.
         #
-        # @param [Picasso::SDoc::Definitions::UriElement]
+        # @param [Picasso::SDoc::Definitions::UriElement] uri_element_definition
+        #   The uri element definition.
         #
         # @return [Hash]
         # @option return [String] :element
