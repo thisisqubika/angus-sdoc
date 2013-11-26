@@ -19,9 +19,9 @@ module Angus
       #   @return [String] the path of the operation.
       attr_accessor :path
 
-      # @!attribute [rw] method
+      # @!attribute [rw] http_method
       #   @return [String] the HTTP method of the operation.
-      attr_accessor :method
+      attr_accessor :http_method
 
       # @!attribute [rw] messages
       #   @return [Hash<String, Message>] the messages associated with the operation.

@@ -8,20 +8,21 @@ Gem::Specification.new do |spec|
   spec.version       = Angus::SDoc::VERSION
   spec.authors       = ['Pablo Ifran', 'Adrian Gomez', 'Gianfranco Zas']
   spec.email         = %w[angus@moove-it.com]
-  spec.description   = 'Read the documentation of the services and generate html based on that documentation'
-  spec.summary       = 'Read the documentation of the services'
-  spec.homepage      = ''
+  spec.description   = <<-DESCRIPTION
+    Used to read the documentation of a service built in angus (but also is able to read any kind
+    of documentation that follow the angus structure), and generate an object representation of
+    that documentation.
+  DESCRIPTION
+  spec.summary       = 'Read documentation of services built on angus'
+  spec.homepage      = 'http://www.moove-it.com/angus'
   spec.license       = 'MIT'
 
-  spec.files         = `git ls-files`.split($/)
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.files         = Dir.glob('{lib}/**/*')
+  spec.test_files    = spec.files.grep(%r{^(spec)/})
   spec.require_paths = %w[lib]
 
-  spec.add_development_dependency('bundler', '~> 1.3')
   spec.add_development_dependency('rake')
   spec.add_development_dependency('yard', '0.8.7')
-
-  # Testing
   spec.add_development_dependency('rspec', '~> 2.12')
   spec.add_development_dependency('factory_girl')
   spec.add_development_dependency('json_expressions')
