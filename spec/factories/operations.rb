@@ -5,7 +5,7 @@ FactoryGirl.define do
     name                  'Get users'
     description           'Returns the users list'
     path                  '/users'
-    method                'get'
+    http_method           'get'
 
     factory :full_operation do
       messages            { [FactoryGirl.build(:message)] }

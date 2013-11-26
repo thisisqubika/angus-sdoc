@@ -156,7 +156,7 @@ module Angus
             proxy_op.code_name = code_name
 
             proxy_op.path = fields['path']
-            proxy_op.method = fields['method']
+            proxy_op.http_method = fields['method']
             proxy_op.service_name = fields['service']
 
             proxy_op
@@ -221,7 +221,7 @@ module Angus
               operation.code_name = code_name
               operation.description = op_metadata['description']
               operation.path = op_metadata['path']
-              operation.method = op_metadata['method']
+              operation.http_method = op_metadata['method']
 
               op_metadata['uri'] ||= []
               operation.uri_elements = op_metadata['uri'].map do |element_hash|

@@ -17,7 +17,7 @@ module JsonRepresentations
         :name => operation.name,
         :description => operation.description,
         :path => operation.path,
-        :method => operation.method
+        :method => operation.http_method
       }
 
       if operation.uri_elements && !operation.uri_elements.empty?

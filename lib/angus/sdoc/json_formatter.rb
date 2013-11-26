@@ -91,7 +91,7 @@ module Angus
             :name => operation_definition.name,
             :description => operation_definition.description,
             :path => operation_definition.path,
-            :method => operation_definition.method
+            :method => operation_definition.http_method
           }
 
           if operation_definition.uri_elements && !operation_definition.uri_elements.empty?
@@ -140,7 +140,7 @@ module Angus
         def proxy_operation_for_json(proxy_operation_definition)
           {
             :path => proxy_operation_definition.path,
-            :method => proxy_operation_definition.method,
+            :method => proxy_operation_definition.http_method,
             :service => proxy_operation_definition.service_name
           }
         end

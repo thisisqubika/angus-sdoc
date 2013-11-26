@@ -106,7 +106,7 @@ describe Angus::SDoc::DefinitionsReader do
       end
 
       it 'correctly loads it\'s method' do
-        create_multi_buy.method.should eq('post')
+        create_multi_buy.http_method.should eq('post')
       end
 
       it 'correctly loads it\'s requests' do

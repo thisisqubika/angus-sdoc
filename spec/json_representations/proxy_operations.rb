@@ -4,7 +4,7 @@ module JsonRepresentations
     def proxy_operation_representation(proxy_operation)
       {
         :path => proxy_operation.path,
-        :method => proxy_operation.method,
+        :method => proxy_operation.http_method,
         :service => proxy_operation.service_name
       }
     end

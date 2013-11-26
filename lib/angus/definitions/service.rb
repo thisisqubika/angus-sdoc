@@ -52,14 +52,12 @@ module Angus
       #   Possible values are the *_LEVEL constants from {Message}
       #
       # @return [Message] the message or nil if no one matches.
-      def message(key, level)
-        msg = nil
-
-        @operations.find do |operation|
-          msg = operation.message(key.to_s, level)
+      def message(key, level = nil)
+        message = self.messages.find do |message_key, message|
+          message_key == key && (!level || message.level.downcase == level)
         end
 
-        msg
+        message.last if message
       end
 
       # Merge the following definitions:
