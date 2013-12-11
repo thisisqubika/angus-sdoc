@@ -1,30 +1,34 @@
 <%
   glossary_terms_hash = @service.glossary.terms_hash
+ title = "#{@service.name} service API documentation"
 %>
 
 <html>
   <head>
-    <title>Especificaci&oacute;n API de Servicio <%= @service.name %></title>
+    <title><%= title %></title>
 
-    <style type="text/css" media="screen">
+    <style type='text/css' media='screen'>
       <%= erb :styles %>
     </style>
   </head>
   <body>
-  <div class="content">
-    <h1>Especificaci&oacute;n API de Servicio <%= @service.name %></h1>
-    <h4>Nombre en c&oacute;digo</h4>
+  <div class='content'>
+    <h1><%= title %></h1>
+    <h4>Code name</h4>
     <p><%= @service.code_name %></p>
 
-    <h3>Operaciones</h3>
+    <h4>Version</h4>
+    <p><%= @service.version %></p>
+
+    <h3>Operations</h3>
     <p>
-      En esta secci&oacute;n se describen las operaciones presentadas por este servicio.
+      Here are the available API operations.
     </p>
 
     <table>
       <thead>
         <tr>
-          <td>&Iacute;ndice de Operaciones</td>
+          <td>Operations Index</td>
         </tr>
       </thead>
       <tbody>
@@ -32,7 +36,7 @@
           <% operations.each do |operation| %>
             <tr>
               <td>
-                <a href="#operation-<%= controller_name %>-<%= operation.code_name %>">
+                <a href='#operation-<%= controller_name %>-<%= operation.code_name %>'>
                   <%= controller_name %>#<%= operation.code_name %>
                 </a>
               </td>
@@ -46,12 +50,12 @@
     <p></p>
     <table>
       <thead>
-        <tr><td>Índice de Operaciones Proxy</td></tr>
+        <tr><td>Proxy Operations Index</td></tr>
       </thead>
       <tbody>
         <% @service.proxy_operations.each do |operation| %>
           <tr><td>
-            <a href="#proxy-operation-<%= operation.code_name %>">
+            <a href='#proxy-operation-<%= operation.code_name %>'>
               <%= operation.code_name %>
             </a>
           </td></tr>
@@ -62,41 +66,38 @@
 
     <% @service.operations.each do |(controller_name, operations)| %>
       <% operations.each do |operation| %>
-        <div class="operation" id="operation-<%= controller_name %>-<%= operation.code_name %>">
+        <div class='operation' id='operation-<%= controller_name %>-<%= operation.code_name %>'>
           <h4>
             <%= operation.name %>
           </h4>
 
-          <h5>Descripci&oacute;n</h5>
+          <h5>Description</h5>
           <p><%= operation.description %></p>
 
-          <h5>Versiones</h5>
-          <p>Presente desde versi&oacute;n inicial</p>
-
-          <table class="vertical-header split">
+          <table class='vertical-header split'>
             <tbody>
               <tr>
-                <td>M&eacute;todo</td>
+                <td>HTTP Method</td>
                 <td><%= operation.http_method %></td>
               </tr>
               <tr>
                 <td>URI</td>
-                <td><%= operation.path %></td>
+                <td><%= operation_path(operation) %></td>
               </tr>
               <tr>
-                <td>Nombre interno</td>
+                <td>Code name</td>
                 <td><%= operation.code_name %></td>
               </tr>
             </tbody>
           </table>
 
-          <% if !operation.uri_elements.empty? %>
-            <h5>Parametros de Path URI</h5>
+          <% unless operation.uri_elements.empty? %>
+            <h5>URI Params</h5>
             <table>
               <thead>
                 <tr>
-                  <td>Par&aacute;metro</td>
-                  <td>Descripción</td>
+                  <td>Parameter</td>
+                  <td>Description</td>
                 </tr>
               </thead>
               <tbody>
@@ -114,13 +115,13 @@
 
 
           <% if !operation.request_elements.empty? %>
-          <h5>Elementos de Petici&oacute;n</h5>
+          <h5>Request params</h5>
           <table>
             <thead>
               <tr>
-                <td>Nombre</td>
-                <td>Descripci&oacute;n</td>
-                <td>Requerido</td>
+                <td>Name</td>
+                <td>Description</td>
+                <td>Required?</td>
               </tr>
             </thead>
             <tbody>
@@ -129,14 +130,16 @@
                   <td><%= element.name %></td>
                   <td>
                     <%= element.description %><br />
-                    Tipo: <%= h_type(element.type, @service) %><br />
-                    Restricciones: <%= element.constraints %><br />
-                    Valores Válidos: <%= element.valid_values %><br />
+                    Type: <%= h_type(element.type, @service) %><br />
+                    Restrictions: <%= element.constraints %><br />
+                    Valid Values: <%= element.valid_values %><br />
                     <% if glossary_terms_hash.include?(element.name)
                          glossary_term = glossary_terms_hash[element.name]
                       %>
-                      Glosario:
-                      <a href="#glossary-term-<%= glossary_term.short_name %>"><%= glossary_term.long_name %></a>
+                      Glossary:
+                      <a href='#glossary-term-<%= glossary_term.short_name %>'>
+                        <%= glossary_term.long_name %>
+                      </a>
                       <br />
                     <% end %>
                   </td>
@@ -148,13 +151,13 @@
           <% end %>
 
           <% if !operation.response_elements.empty? %>
-          <h5>Elementos de Respuesta</h5>
+          <h5>Response elements</h5>
           <table>
             <thead>
               <tr>
-                <td>Nombre</td>
-                <td>Descripción</td>
-                <td>Requerido</td>
+                <td>Name</td>
+                <td>Description</td>
+                <td>Required?</td>
               </tr>
             </thead>
             <tbody>
@@ -164,12 +167,12 @@
                   <td>
                     <%= element.description %><br />
                     <% if element.type %>
-                      Tipo: <%= h_type(element.type, @service) %><br />
+                      Type: <%= h_type(element.type, @service) %><br />
                     <% else %>
-                      Contenedor: <%= h_type(element.elements_type, @service) %><br />
+                      Container: <%= h_type(element.elements_type, @service) %><br />
                     <% end %>
                     <% if element.default %>
-                      Valor por defecto: <%= element.default %>
+                      Default value: <%= element.default %>
                     <% end %>
                   </td>
                   <td><%= element.required %></td>
@@ -180,14 +183,14 @@
           <% end %>
 
           <% if !operation.messages.empty? %>
-          <h5>Mensajes</h5>
+          <h5>Messages</h5>
           <table>
             <thead>
               <tr>
-                <td>Nivel</td>
-                <td>Código</td>
-                <td>Descripción</td>
-                <td>Código de Estado HTTP</td>
+                <td>Level</td>
+                <td>Key</td>
+                <td>Description</td>
+                <td>HTTP Status Code</td>
               </tr>
             </thead>
             <tbody>
@@ -206,16 +209,16 @@
       <% end %>
     <% end %>
 
-    <h3>Representaciones</h3>
+    <h3>Representations</h3>
     <% @service.representations.each do |representation| %>
-    <div class="representation" id="representation-<%= representation.name %>">
+    <div class='representation' id='representation-<%= representation.name %>'>
       <h4><%= representation.name %></h4>
       <table>
         <thead>
           <tr>
-            <td>Nombre de Atributo</td>
-            <td>Descripci&oacute;n</td>
-            <td>Requerido</td>
+            <td>Name</td>
+            <td>Description</td>
+            <td>Required?</td>
           </tr>
         </thead>
         <tbody>
@@ -225,9 +228,9 @@
               <td>
                 <%= field.description %><br />
                 <% if field.type %>
-                  Tipo: <%= h_type(field.type, @service) %><br />
+                  Type: <%= h_type(field.type, @service) %><br />
                 <% else %>
-                  Contenedor: <%= h_type(field.elements_type, @service) %><br />
+                  Container: <%= h_type(field.elements_type, @service) %><br />
                 <% end %>
               </td>
               <td><%= field.required %></td>
@@ -239,25 +242,25 @@
     <% end %>
 
     <% if @service.proxy_operations.any? %>
-    <h3>Operaciones Proxy</h3>
-    <div id="proxy_operations" class="proxy_operations">
+    <h3>Proxy Operations</h3>
+    <div id='proxy_operations' class='proxy_operations'>
       <table>
         <thead>
           <tr>
-            <td>Nombre Interno</td>
-            <td>Método</td>
+            <td>Code name</td>
+            <td>HTTP Method</td>
             <td>URI</td>
-            <td>Servicio</td>
+            <td>Service</td>
           </tr>
         </thead>
         <tbody>
           <% @service.proxy_operations.each do |operation| %>
-            <tr id="proxy-operation-<%= operation.code_name %>">
+            <tr id='proxy-operation-<%= operation.code_name %>'>
               <td>
                 <%= operation.code_name %>
               </td>
               <td><%= operation.http_method %></td>
-              <td><%= operation.path %></td>
+              <td><%= operation_path(operation) %></td>
               <td><%= operation.service_name %></td>
             </tr>
           <% end %>
@@ -267,19 +270,19 @@
     <% end %>
 
     <% if @service.glossary.terms.any? %>
-    <h3>Glosario</h3>
-    <div class="glossary">
+    <h3>Glossary</h3>
+    <div class='glossary'>
       <table>
         <thead>
           <tr>
-            <td>Nombre Corto</td>
-            <td>Nombre Largo</td>
-            <td>Descripción</td>
+            <td>Short Name</td>
+            <td>Long Name</td>
+            <td>Description</td>
           </tr>
         </thead>
         <tbody>
         <% @service.glossary.terms.each do |term| %>
-          <tr id="glossary-term-<%= term.short_name %>">
+          <tr id='glossary-term-<%= term.short_name %>'>
             <td><%= term.short_name %></td>
             <td><%= term.long_name %></td>
             <td><%= term.description %></td>

@@ -3,7 +3,7 @@ module Angus
     class Definitions::Service
 
       # @!attribute [rw] name
-      #   @return [String] the name of the sevice.
+      #   @return [String] the name of the service.
       attr_accessor :name
 
       # @!attribute [rw] code_name
@@ -12,7 +12,7 @@ module Angus
       attr_accessor :code_name
 
       # @!attribute [rw] version
-      #   @return [String] the version of the sevice.
+      #   @return [String] the version of the service.
       attr_accessor :version
 
       # @!attribute [rw] messages

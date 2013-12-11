@@ -4,38 +4,51 @@ module Angus
   module SDoc
     class HtmlFormatter
 
-      class << self
+      ENGLISH_LANG = 'en'
 
-        # Generates the html for the service definition.
-        #
-        # @param [Angus::SDoc::Definitions::Service] service_definition the service definition.
-        #
-        # @return [String] the generated html.
-        def format_service(service_definition)
-          @service = service_definition
+      # Generates the html for the service definition.
+      #
+      # @param [Angus::SDoc::Definitions::Service] service_definition the service definition.
+      # @param [String] language The language to user for the documentation, defaults to english
+      #
+      # @return [String] the generated html.
+      def self.format_service(service_definition, language = nil)
+        @service = service_definition
+        @language = language || ENGLISH_LANG
 
-          erb(:doc)
-        end
+        erb(:doc, @language)
+      end
 
-        private
+      def self.erb(template, language = nil)
+        template_name = if language
+                          "#{template}.#{language}.erb"
+                        else
+                          "#{template}.erb"
+                        end
 
-        def erb(template)
-          template = File.open(File.join(templates_path, "#{template}.erb")).read
-          ERB.new(template).result(binding)
-        end
+        template = File.open(File.join(templates_path, template_name)).read
+        ERB.new(template).result(binding)
+      end
+      private_class_method :erb
 
-        def h_type(type, service)
-          if service.representations_hash.include?(type)
-            "<a href='#representation-#{service.representations_hash[type].name}'>#{type}</a>"
-          else
-            type
-          end
-        end
+      def self.operation_path(operation)
+        "/#{@service.code_name}/api/#{@service.version}#{operation.path}"
+      end
+      private_class_method :operation_path
 
-        def templates_path
-          File.join(File.dirname(__FILE__), 'templates')
+      def self.h_type(type, service)
+        if service.representations_hash.include?(type)
+          "<a href='#representation-#{service.representations_hash[type].name}'>#{type}</a>"
+        else
+          type
         end
       end
+      private_class_method :h_type
+
+      def self.templates_path
+        File.join(File.dirname(__FILE__), 'templates')
+      end
+      private_class_method :templates_path
 
     end
   end

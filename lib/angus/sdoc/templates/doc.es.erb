@@ -1,0 +1,296 @@
+<%
+  glossary_terms_hash = @service.glossary.terms_hash
+%>
+
+<html>
+  <head>
+    <title>Especificación API de Servicio <%= @service.name %></title>
+
+    <style type='text/css' media='screen'>
+    <%= erb :styles %>
+    </style>
+  </head>
+  <body>
+    <div class='content'>
+      <h1>Especificación API de Servicio <%= @service.name %></h1>
+      <h4>Nombre en código</h4>
+      <p><%= @service.code_name %></p>
+
+      <h4>Versión</h4>
+      <p><%= @service.version %></p>
+
+      <h3>Operaciones</h3>
+      <p>
+      En esta sección se describen las operaciones presentadas por este servicio.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <td>Índice de Operaciones</td>
+          </tr>
+        </thead>
+        <tbody>
+        <% @service.operations.each do |(controller_name, operations)| %>
+        <% operations.each do |operation| %>
+          <tr>
+            <td>
+              <a href='#operation-<%= controller_name %>-<%= operation.code_name %>'>
+              <%= controller_name %>#<%= operation.code_name %>
+              </a>
+            </td>
+          </tr>
+        <% end %>
+        <% end %>
+        </tbody>
+      </table>
+
+    <% if @service.proxy_operations.any? %>
+      <p></p>
+      <table>
+        <thead>
+          <tr><td>Índice de Operaciones Proxy</td></tr>
+        </thead>
+        <tbody>
+        <% @service.proxy_operations.each do |operation| %>
+          <tr><td>
+            <a href='#proxy-operation-<%= operation.code_name %>'>
+            <%= operation.code_name %>
+            </a>
+          </td></tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
+
+    <% @service.operations.each do |(controller_name, operations)| %>
+    <% operations.each do |operation| %>
+      <div class='operation' id='operation-<%= controller_name %>-<%= operation.code_name %>'>
+        <h4>
+        <%= operation.name %>
+        </h4>
+
+        <h5>Descripción</h5>
+        <p><%= operation.description %></p>
+
+        <table class='vertical-header split'>
+          <tbody>
+            <tr>
+              <td>Método</td>
+              <td><%= operation.http_method %></td>
+            </tr>
+            <tr>
+              <td>URI</td>
+              <td><%= operation_path(operation) %></td>
+            </tr>
+            <tr>
+              <td>Nombre interno</td>
+              <td><%= operation.code_name %></td>
+            </tr>
+          </tbody>
+        </table>
+
+      <% if !operation.uri_elements.empty? %>
+        <h5>Parametros de Path URI</h5>
+        <table>
+          <thead>
+            <tr>
+              <td>Parámetro</td>
+              <td>Descripción</td>
+            </tr>
+          </thead>
+          <tbody>
+          <% operation.uri_elements.each do |element| %>
+            <tr>
+              <td><%= element.name %></td>
+              <td>
+              <%= element.description %>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      <% end %>
+
+
+      <% if !operation.request_elements.empty? %>
+        <h5>Elementos de Petición</h5>
+        <table>
+          <thead>
+            <tr>
+              <td>Nombre</td>
+              <td>Descripción</td>
+              <td>Requerido</td>
+            </tr>
+          </thead>
+          <tbody>
+          <% operation.request_elements.each do |element| %>
+            <tr>
+              <td><%= element.name %></td>
+              <td>
+                <%= element.description %><br />
+              Tipo: <%= h_type(element.type, @service) %><br />
+              Restricciones: <%= element.constraints %><br />
+              Valores Válidos: <%= element.valid_values %><br />
+              <% if glossary_terms_hash.include?(element.name)
+                 glossary_term = glossary_terms_hash[element.name]
+              %>
+              Glosario:
+                <a href='#glossary-term-<%= glossary_term.short_name %>'>
+                <%= glossary_term.long_name %>
+                </a>
+                <br />
+              <% end %>
+              </td>
+              <td><%= element.required %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      <% end %>
+
+      <% if !operation.response_elements.empty? %>
+        <h5>Elementos de Respuesta</h5>
+        <table>
+          <thead>
+            <tr>
+              <td>Nombre</td>
+              <td>Descripción</td>
+              <td>Requerido</td>
+            </tr>
+          </thead>
+          <tbody>
+          <% operation.response_elements.each do |element| %>
+            <tr>
+              <td><%= element.name %></td>
+              <td>
+                <%= element.description %><br />
+              <% if element.type %>
+              Tipo: <%= h_type(element.type, @service) %><br />
+              <% else %>
+              Contenedor: <%= h_type(element.elements_type, @service) %><br />
+              <% end %>
+              <% if element.default %>
+              Valor por defecto: <%= element.default %>
+              <% end %>
+              </td>
+              <td><%= element.required %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      <% end %>
+
+      <% if !operation.messages.empty? %>
+        <h5>Mensajes</h5>
+        <table>
+          <thead>
+            <tr>
+              <td>Nivel</td>
+              <td>Código</td>
+              <td>Descripción</td>
+              <td>Código de Estado HTTP</td>
+            </tr>
+          </thead>
+          <tbody>
+          <% operation.messages.each do |message| %>
+            <tr>
+              <td><%= message.level %></td>
+              <td><%= message.key %></td>
+              <td><%= message.description %></td>
+              <td><%= message.status_code %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      <% end %>
+      </div>
+    <% end %>
+    <% end %>
+
+      <h3>Representaciones</h3>
+    <% @service.representations.each do |representation| %>
+      <div class='representation' id='representation-<%= representation.name %>'>
+        <h4><%= representation.name %></h4>
+        <table>
+          <thead>
+            <tr>
+              <td>Nombre de Atributo</td>
+              <td>Descripción</td>
+              <td>Requerido</td>
+            </tr>
+          </thead>
+          <tbody>
+          <% representation.fields.each do |field| %>
+            <tr>
+              <td><%= field.name %></td>
+              <td>
+                <%= field.description %><br />
+              <% if field.type %>
+              Tipo: <%= h_type(field.type, @service) %><br />
+              <% else %>
+              Contenedor: <%= h_type(field.elements_type, @service) %><br />
+              <% end %>
+              </td>
+              <td><%= field.required %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+
+    <% if @service.proxy_operations.any? %>
+      <h3>Operaciones Proxy</h3>
+      <div id='proxy_operations' class='proxy_operations'>
+        <table>
+          <thead>
+            <tr>
+              <td>Nombre Interno</td>
+              <td>Método</td>
+              <td>URI</td>
+              <td>Servicio</td>
+            </tr>
+          </thead>
+          <tbody>
+          <% @service.proxy_operations.each do |operation| %>
+            <tr id='proxy-operation-<%= operation.code_name %>'>
+              <td>
+              <%= operation.code_name %>
+              </td>
+              <td><%= operation.http_method %></td>
+              <td><%= operation_path(operation) %></td>
+              <td><%= operation.service_name %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+
+    <% if @service.glossary.terms.any? %>
+      <h3>Glosario</h3>
+      <div class='glossary'>
+        <table>
+          <thead>
+            <tr>
+              <td>Nombre Corto</td>
+              <td>Nombre Largo</td>
+              <td>Descripción</td>
+            </tr>
+          </thead>
+          <tbody>
+          <% @service.glossary.terms.each do |term| %>
+            <tr id='glossary-term-<%= term.short_name %>'>
+              <td><%= term.short_name %></td>
+              <td><%= term.long_name %></td>
+              <td><%= term.description %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+
+    </body>
+</html>

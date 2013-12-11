@@ -8,10 +8,19 @@ describe Angus::SDoc::HtmlFormatter do
 
     let(:service) { FactoryGirl.build(:full_service) }
 
-    subject { formatter.format_service(service) }
+    context 'when "en" language' do
+      subject { formatter.format_service(service, 'en') }
 
-    it { should be_kind_of(String) }
-    it { should_not be_empty }
+      it { should be_kind_of(String) }
+      it { should_not be_empty }
+    end
+
+    context 'when "es" language' do
+      subject { formatter.format_service(service, 'es') }
+
+      it { should be_kind_of(String) }
+      it { should_not be_empty }
+    end
 
   end
 
