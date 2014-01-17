@@ -13,8 +13,8 @@ Gem::Specification.new do |spec|
     of documentation that follow the angus structure), and generate an object representation of
     that documentation.
   DESCRIPTION
-  spec.summary       = 'Read documentation of services built on angus'
-  spec.homepage      = 'http://www.moove-it.com/angus'
+  spec.summary       = 'Expose service API documentation.'
+  spec.homepage      = 'https://github.com/Moove-it/angus-sdoc'
   spec.license       = 'MIT'
 
   spec.files         = Dir.glob('{lib}/**/*')

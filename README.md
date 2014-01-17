@@ -1,4 +1,4 @@
-# Angus::Sdoc
+# angus-sdoc
 
 Used to read the documentation of a service built in angus (but also is able to read any kind of documentation that follow
 the angus structure), and generate an object representation of that documentation.
@@ -23,7 +23,7 @@ $ bundle
 
 Or install it yourself as:
 
-``` ruby
+``` sh
 $ gem install angus-sdoc
 ```
 
