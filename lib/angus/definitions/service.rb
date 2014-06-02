@@ -38,6 +38,7 @@ module Angus
       def initialize
         @messages = {}
         @operations = Set.new
+        @proxy_operations = Set.new
         @representations = Set.new
         @glossary = Angus::SDoc::Definitions::Glossary.new
       end
