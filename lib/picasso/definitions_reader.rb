@@ -138,6 +138,8 @@ module Picasso
             proxy_op.path = fields['path']
             proxy_op.method = fields['method']
             proxy_op.service_name = fields['service']
+            proxy_op.adapter = fields['adapter']
+            proxy_op.adapter_opts = fields['adapter_opts'] || {}
 
             proxy_op
           end

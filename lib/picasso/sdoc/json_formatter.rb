@@ -137,11 +137,15 @@ module Picasso
         # @option return [String] :path
         # @option return [String] :method
         # @option return [String] :service
+        # @option return [String] :adapter
+        # @option return [String] :adapter_opts
         def proxy_operation_for_json(proxy_operation_definition)
           {
             :path => proxy_operation_definition.path,
             :method => proxy_operation_definition.method,
-            :service => proxy_operation_definition.service_name
+            :service => proxy_operation_definition.service_name,
+            :adapter => proxy_operation_definition.adapter,
+            :adapter_opts => proxy_operation_definition.adapter_opts
           }
         end
 

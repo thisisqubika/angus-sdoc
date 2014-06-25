@@ -19,6 +19,14 @@ module Picasso
       #   @return [String] the service name of the operation.
       attr_accessor :service_name
 
+      # @!attribute [rw] adapter
+      #   @return [String] The adapter for the service.
+      attr_accessor :adapter
+
+      # @!attribute [rw] adapter_opts
+      #   @return [String] Options to pass to the given adapter.
+      attr_accessor :adapter_opts
+
     end
   end
 end
