@@ -26,6 +26,11 @@ module Angus
       # @!attribute [rw] text
       #   @return [String] when set this text overrides all others and is set as the message description.
       attr_accessor :text
+
+      # @!attribute [rw] fields
+      #   @return [Array<Field>] the fields for the message.
+      attr_accessor :fields
+
     end
   end
 end

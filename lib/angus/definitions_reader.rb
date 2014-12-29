@@ -108,7 +108,7 @@ module Angus
 
           messages_hash.each do |key, attrs|
             messages[key] = build_message(key, attrs['level'], attrs['status_code'],
-                                          attrs['description'], attrs['text'])
+                                          attrs['description'], attrs['text'], attrs['fields'])
           end
 
           messages
@@ -127,7 +127,7 @@ module Angus
         #   was not specified.
         #
         # @return [Message] the message.
-        def build_message(key, level, status_code, description, text)
+        def build_message(key, level, status_code, description, text, fields)
           unless level
             raise Angus::SDoc::InvalidServiceMessage.new(key ,'Can not create message without level.')
           end
@@ -142,10 +142,39 @@ module Angus
           message.status_code = status_code
           message.description = description
           message.text = text
+          message.fields = (fields || []).map { |field| build_message_field(field['name'],
+                                                                            field['description'],
+                                                                            field['type'],
+                                                                            field['elements_type'],
+                                                                            field['required']) }
 
           message
         end
         private :build_message
+
+        # Builds Definitions::Field with the message data.
+        #
+        # @param [String] key The message key.
+        # @param [String] level The message level.
+        # @param [String] status_code The message status code.
+        # @param [String] description The message description.
+        # @param [String] text The message text.
+        #
+        # @raise [Angus::SDoc::InvalidServiceMessage] if the level or the status code
+        #   was not specified.
+        #
+        # @return [Message] the message.
+        def build_message_field(name, description, type, elements_type, required)
+          field = Angus::SDoc::Definitions::MessageField.new
+          field.name = name
+          field.description = description
+          field.type = type
+          field.elements_type = elements_type
+          field.required = required
+
+          field
+        end
+        private :build_message_field
 
         # Builds Definitions::ProxyOperation objects for each proxy operation metadata.
         #
