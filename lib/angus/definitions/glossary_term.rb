@@ -26,7 +26,7 @@ module Angus
       # @param [GlossaryTerm] other The object to be compared.
       #
       # @return [Boolean] true if all the attributes are equal and false otherwise.
-      def == (other)
+      def ==(other)
         other.kind_of?(Definitions::GlossaryTerm) &&
           self.short_name == other.short_name && self.long_name == other.long_name &&
           self.description == other.description
