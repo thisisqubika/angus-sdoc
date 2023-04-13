@@ -22,7 +22,7 @@ module Angus
         message
       end
 
-      def == (other)
+      def ==(other)
         other.kind_of?(InvalidServiceMessage) &&
           other.message == self.message && self.message_key == other.message_key
       end

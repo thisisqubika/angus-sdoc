@@ -8,5 +8,3 @@ module AttributeMatchers
     end
   end
 end
-
-
