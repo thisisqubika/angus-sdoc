@@ -30,16 +30,21 @@ module Angus
       #   @return [String] the elements type of the request element.
       attr_accessor :elements_type
 
+      # @!attribute [rw] optional
+      #   @return [Boolean] true if the element is optional
+      attr_accessor :optional
+
 
       def initialize(name = nil, description = nil, required = nil, type = nil,
-                     constraints = nil, valid_values = nil, elements_type = nil)
-        self.name= name if name
-        self.description= description if description
-        self.required= required if required
-        self.type= type if type
-        self.constraints= constraints if constraints
-        self.valid_values= valid_values if valid_values
-        self.elements_type= elements_type if elements_type
+                     constraints = nil, valid_values = nil, elements_type = nil, optional = nil)
+        self.name = name if name
+        self.description = description if description
+        self.required = required if required
+        self.type = type if type
+        self.constraints = constraints if constraints
+        self.valid_values = valid_values if valid_values
+        self.elements_type = elements_type if elements_type
+        self.optional = optional if optional
       end
 
       # Check if an object is equals to the current instance.
@@ -49,13 +54,12 @@ module Angus
       # @return [Boolean] true if all the attributes are equal and false otherwise.
       def == (other)
         other.instance_of?(Definitions::RequestElement) &&
-          self.name == other.name && self.description == other.description &&
-          self.required == other.required && self.type == other.type &&
-          self.constraints == other.constraints &&
-          self.valid_values == other.valid_values &&
-          self.elements_type == other.elements_type
+          name == other.name && description == other.description &&
+          required == other.required && type == other.type &&
+          constraints == other.constraints &&
+          valid_values == other.valid_values &&
+          elements_type == other.elements_type && optional == other.optional
       end
-
     end
   end
 end

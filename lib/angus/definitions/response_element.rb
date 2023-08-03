@@ -1,7 +1,6 @@
 module Angus
   module SDoc
     class Definitions::ResponseElement
-
       # @!attribute [rw] name
       #   @return [String] the name of the response element.
       attr_accessor :name
@@ -26,16 +25,20 @@ module Angus
       #   @return [String] the elements type of the response element.
       attr_accessor :elements_type
 
+      # @!attribute [rw] optional
+      #   @return [Boolean] true if the element is optional
+      attr_accessor :optional
+
       def initialize(name = nil, description = nil, required = nil, type = nil, default = nil,
-                     elements_type = nil)
+                     elements_type = nil, optional = nil)
         @name = name
         @description = description
         @required = required
         @type = type
         @default = default
         @elements_type = elements_type
+        @optional = optional
       end
-
     end
   end
 end
