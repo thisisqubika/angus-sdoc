@@ -48,8 +48,8 @@ module Angus
         # @option return [String] :description
         def glossary_term_for_json(glossary_term_definition)
           {
-            :long_name => glossary_term_definition.long_name,
-            :description => glossary_term_definition.description
+            long_name: glossary_term_definition.long_name,
+            description: glossary_term_definition.description
           }
         end
 
@@ -65,10 +65,10 @@ module Angus
         # @option return [Integer] :status_code
         def message_for_json(message_definition)
           {
-            :key => message_definition.key,
-            :description => message_definition.description,
-            :level => message_definition.level,
-            :status_code => message_definition.status_code
+            key: message_definition.key,
+            description: message_definition.description,
+            level: message_definition.level,
+            status_code: message_definition.status_code
           }
         end
 
@@ -88,17 +88,17 @@ module Angus
         # @option return [Array<(see .message_for_json)>] :messages
         def operation_for_json(operation_definition)
           data = {
-            :name => operation_definition.name,
-            :description => operation_definition.description,
-            :path => operation_definition.path,
-            :method => operation_definition.http_method
+            name: operation_definition.name,
+            description: operation_definition.description,
+            path: operation_definition.path,
+            method: operation_definition.http_method
           }
 
           if operation_definition.uri_elements && !operation_definition.uri_elements.empty?
             uri_elements = operation_definition.uri_elements.map do |uri_element|
               uri_element_for_json(uri_element)
             end
-            data.merge!({ :uri => uri_elements })
+            data.merge!({ uri: uri_elements })
           end
 
           if operation_definition.request_elements && !operation_definition.request_elements.empty?
@@ -106,7 +106,7 @@ module Angus
               request_element_for_json(request_element)
             end
 
-            data.merge!({ :request => request_elements })
+            data.merge!({ request: request_elements })
           end
 
           if operation_definition.response_elements && !operation_definition.response_elements.empty?
@@ -114,7 +114,7 @@ module Angus
               response_element_for_json(response_element)
             end
 
-            data.merge!({:response => response_elements})
+            data.merge!({ response: response_elements })
           end
 
           if operation_definition.messages && !operation_definition.messages.empty?
@@ -122,7 +122,7 @@ module Angus
               message_for_json(message)
             end
 
-            data.merge!({:messages => messages})
+            data.merge!({ messages: messages })
           end
 
           data
@@ -139,9 +139,9 @@ module Angus
         # @option return [String] :service
         def proxy_operation_for_json(proxy_operation_definition)
           {
-            :path => proxy_operation_definition.path,
-            :method => proxy_operation_definition.http_method,
-            :service => proxy_operation_definition.service_name
+            path: proxy_operation_definition.path,
+            method: proxy_operation_definition.http_method,
+            service: proxy_operation_definition.service_name
           }
         end
 
@@ -170,17 +170,18 @@ module Angus
         # @option return [String] :elements_type
         def representation_field_for_json(representation_field_definition)
           data = {
-            :field => representation_field_definition.name,
-            :description => representation_field_definition.description,
-            :required => representation_field_definition.required
+            field: representation_field_definition.name,
+            description: representation_field_definition.description,
+            required: representation_field_definition.required,
+            optional: representation_field_definition.optional
           }
 
           if representation_field_definition.type
-            data.merge!({:type => representation_field_definition.type})
+            data.merge!({ type: representation_field_definition.type })
           end
 
           if representation_field_definition.elements_type
-            data.merge!({:elements_type => representation_field_definition.elements_type})
+            data.merge!({ elements_type: representation_field_definition.elements_type })
           end
 
           data
@@ -199,17 +200,18 @@ module Angus
         # @option return [String] :elements_type
         def request_element_for_json(request_element_definition)
           data = {
-            :element => request_element_definition.name,
-            :description => request_element_definition.description,
-            :required => request_element_definition.required
+            element: request_element_definition.name,
+            description: request_element_definition.description,
+            required: request_element_definition.required,
+            optional: request_element_definition.optional
           }
 
           if request_element_definition.type
-            data.merge!({:type => request_element_definition.type})
+            data.merge!({ type: request_element_definition.type })
           end
 
           if request_element_definition.elements_type
-            data.merge!({:elements_type => request_element_definition.elements_type})
+            data.merge!({ elements_type: request_element_definition.elements_type })
           end
 
           data
@@ -228,17 +230,18 @@ module Angus
         # @option return [String] :elements_type
         def response_element_for_json(response_element_definition)
           data = {
-            :element => response_element_definition.name,
-            :description => response_element_definition.description,
-            :required => response_element_definition.required
+            element: response_element_definition.name,
+            description: response_element_definition.description,
+            required: response_element_definition.required,
+            optional: response_element_definition.optional
           }
 
           if response_element_definition.type
-            data.merge!({:type => response_element_definition.type})
+            data.merge!({ type: response_element_definition.type })
           end
 
           if response_element_definition.elements_type
-            data.merge!({:elements_type => response_element_definition.elements_type})
+            data.merge!({ elements_type: response_element_definition.elements_type })
           end
 
           data
@@ -282,16 +285,16 @@ module Angus
           end
 
           {
-            :service => {
-              :service => service_definition.name,
-              :code_name => service_definition.code_name,
-              :version => service_definition.version
+            service: {
+              service: service_definition.name,
+              code_name: service_definition.code_name,
+              version: service_definition.version
             },
-            :operations => operations,
-            :proxy_operations => proxy_operations,
-            :representations => representations,
-            :messages => messages,
-            :glossary => glossary_for_json(service_definition.glossary)
+            operations: operations,
+            proxy_operations: proxy_operations,
+            representations: representations,
+            messages: messages,
+            glossary: glossary_for_json(service_definition.glossary)
           }
         end
 
@@ -305,8 +308,8 @@ module Angus
         # @option return [String] :description
         def uri_element_for_json(uri_element_definition)
           {
-            :element => uri_element_definition.name,
-            :description => uri_element_definition.description
+            element: uri_element_definition.name,
+            description: uri_element_definition.description
           }
         end
 

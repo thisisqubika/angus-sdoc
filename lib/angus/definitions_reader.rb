@@ -1,12 +1,11 @@
 module Angus
   module SDoc
     class DefinitionsReader
-
-      OPERATIONS = 'operations'
-      CONFIGURATIONS = %w{service proxy_operations representations glossary messages}
+      OPERATIONS = 'operations'.freeze
+      CONFIGURATIONS =
+        %w[service proxy_operations representations glossary messages optional].freeze
 
       class << self
-
         # Returns the tree of objects for the service.
         #
         # @param [String] base_path The base path of the YML files.
@@ -214,6 +213,7 @@ module Angus
               field.type = field_hash['type']
               field.required = field_hash['required']
               field.elements_type = field_hash['elements_type']
+              field.optional = field_hash['optional']
               field
             end
 
@@ -273,6 +273,7 @@ module Angus
                 request_element.constraints = element_hash['constraints']
                 request_element.valid_values = element_hash['valid_values']
                 request_element.elements_type = element_hash['elements_type']
+                request_element.optional = element_hash['optional']
 
                 request_element
               end
@@ -306,6 +307,7 @@ module Angus
                 response_element.type = element_hash['type']
                 response_element.default = element_hash['default']
                 response_element.elements_type = element_hash['elements_type']
+                response_element.optional = element_hash['optional']
 
                 response_element
               end
@@ -329,9 +331,7 @@ module Angus
           Angus::SDoc::Definitions::Glossary.new(glossary_hash)
         end
         private :build_glossary
-
       end
-
     end
   end
 end
