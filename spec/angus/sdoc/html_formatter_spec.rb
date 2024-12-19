@@ -6,7 +6,7 @@ describe Angus::SDoc::HtmlFormatter do
 
   describe '.format_service' do
 
-    let(:service) { FactoryGirl.build(:full_service) }
+    let(:service) { FactoryBot.build(:full_service) }
 
     context 'when "en" language' do
       subject { formatter.format_service(service, 'en') }

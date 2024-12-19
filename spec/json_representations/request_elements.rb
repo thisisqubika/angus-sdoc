@@ -3,9 +3,10 @@ module JsonRepresentations
 
     def request_element_representation(request_element)
       representation = {
-        :element => request_element.name,
-        :description => request_element.description,
-        :required => request_element.required
+        element: request_element.name,
+        description: request_element.description,
+        required: request_element.required,
+        optional: request_element.optional
       }
 
       representation.merge!({:type => request_element.type}) if request_element.type

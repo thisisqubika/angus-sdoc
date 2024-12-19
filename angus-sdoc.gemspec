@@ -22,12 +22,13 @@ Gem::Specification.new do |spec|
   spec.require_paths = %w[lib]
 
   spec.add_development_dependency('rake')
-  spec.add_development_dependency('yard', '0.8.7')
-  spec.add_development_dependency('rspec', '~> 2.12')
-  spec.add_development_dependency('factory_girl')
+  spec.add_development_dependency('yard')
+  spec.add_development_dependency('rspec')
+  spec.add_development_dependency('rspec-its')
+  spec.add_development_dependency('factory_bot', '!= 6.4.5')
   spec.add_development_dependency('json_expressions')
-  spec.add_development_dependency('simplecov', '0.7.1')
-  spec.add_development_dependency('simplecov-rcov', '0.2.3')
-  spec.add_development_dependency('simplecov-rcov-text', '0.0.2')
+  spec.add_development_dependency('simplecov')
+  spec.add_development_dependency('simplecov-rcov')
+  spec.add_development_dependency('simplecov-rcov-text')
   spec.add_development_dependency('ci_reporter')
 end
