@@ -18,7 +18,7 @@ describe Angus::SDoc::JsonFormatter do
   describe '.format_glossary' do
     include JsonRepresentations::Glossaries
 
-    let(:glossary) { FactoryGirl.build(:glossary) }
+    let(:glossary) { FactoryBot.build(:glossary) }
 
     subject { formatter.format_glossary(glossary) }
 
@@ -29,7 +29,7 @@ describe Angus::SDoc::JsonFormatter do
   describe '.format_glossary_term' do
     include JsonRepresentations::GlossaryTerms
 
-    let(:glossary_term) { FactoryGirl.build(:glossary_term) }
+    let(:glossary_term) { FactoryBot.build(:glossary_term) }
 
     subject { formatter.format_glossary_term(glossary_term) }
 
@@ -40,7 +40,7 @@ describe Angus::SDoc::JsonFormatter do
   describe '.format_message' do
     include JsonRepresentations::Messages
 
-    let(:message) { FactoryGirl.build(:message) }
+    let(:message) { FactoryBot.build(:message) }
 
     subject { formatter.format_message(message) }
 
@@ -51,7 +51,7 @@ describe Angus::SDoc::JsonFormatter do
   describe '.format_operation' do
     include JsonRepresentations::Operations
 
-    let(:operation) { FactoryGirl.build(:full_operation) }
+    let(:operation) { FactoryBot.build(:full_operation) }
 
     subject { formatter.format_operation(operation) }
 
@@ -62,7 +62,7 @@ describe Angus::SDoc::JsonFormatter do
   describe '.format_proxy_operation' do
     include JsonRepresentations::ProxyOperations
 
-    let(:proxy_operation) { FactoryGirl.build(:proxy_operation) }
+    let(:proxy_operation) { FactoryBot.build(:proxy_operation) }
 
     subject { formatter.format_proxy_operation(proxy_operation) }
 
@@ -73,7 +73,7 @@ describe Angus::SDoc::JsonFormatter do
   describe '.format_representation' do
     include JsonRepresentations::Representations
 
-    let(:representation) { FactoryGirl.build(:full_representation) }
+    let(:representation) { FactoryBot.build(:full_representation) }
 
     subject { formatter.format_representation(representation) }
 
@@ -87,13 +87,13 @@ describe Angus::SDoc::JsonFormatter do
     subject { formatter.format_representation_field(representation_field) }
 
     context 'when a single element representation' do
-      let(:representation_field) { FactoryGirl.build(:single_representation_field) }
+      let(:representation_field) { FactoryBot.build(:single_representation_field) }
 
       it { should match_json_expression(representation_field_representation(representation_field)) }
     end
 
     context 'when a list element representation' do
-      let(:representation_field) { FactoryGirl.build(:list_representation_field) }
+      let(:representation_field) { FactoryBot.build(:list_representation_field) }
 
       it { should match_json_expression(representation_field_representation(representation_field)) }
     end
@@ -106,13 +106,13 @@ describe Angus::SDoc::JsonFormatter do
     subject { formatter.format_request_element(request_element) }
 
     context 'when a single request element' do
-      let(:request_element) { FactoryGirl.build(:single_request_element) }
+      let(:request_element) { FactoryBot.build(:single_request_element) }
 
       it { should match_json_expression(request_element_representation(request_element)) }
     end
 
     context 'when a list request element' do
-      let(:request_element) { FactoryGirl.build(:list_request_element) }
+      let(:request_element) { FactoryBot.build(:list_request_element) }
 
       it { should match_json_expression(request_element_representation(request_element)) }
     end
@@ -125,13 +125,13 @@ describe Angus::SDoc::JsonFormatter do
     subject { formatter.format_response_element(response_element) }
 
     context 'when a single response element' do
-      let(:response_element) { FactoryGirl.build(:single_response_element) }
+      let(:response_element) { FactoryBot.build(:single_response_element) }
 
       it { should match_json_expression(response_element_representation(response_element)) }
     end
 
     context 'when a list response element' do
-      let(:response_element) { FactoryGirl.build(:single_response_element) }
+      let(:response_element) { FactoryBot.build(:single_response_element) }
 
       it { should match_json_expression(response_element_representation(response_element)) }
     end
@@ -141,7 +141,7 @@ describe Angus::SDoc::JsonFormatter do
   describe '.format_service' do
     include JsonRepresentations::Services
 
-    let(:service) { FactoryGirl.build(:full_service) }
+    let(:service) { FactoryBot.build(:full_service) }
 
     subject { formatter.format_service(service) }
 
@@ -152,7 +152,7 @@ describe Angus::SDoc::JsonFormatter do
   describe '.format_uri_element' do
     include JsonRepresentations::UriElements
 
-    let(:uri_element) { FactoryGirl.build(:uri_element) }
+    let(:uri_element) { FactoryBot.build(:uri_element) }
 
     subject { formatter.format_uri_element(uri_element) }
 

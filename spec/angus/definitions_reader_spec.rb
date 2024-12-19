@@ -9,33 +9,33 @@ describe Angus::SDoc::DefinitionsReader do
     subject { Angus::SDoc::DefinitionsReader.service_definition(base_path) }
 
     context 'service' do
-      its(:name)      { should eq('My Service') }
-      its(:code_name) { should eq('service') }
-      its(:version)   { should eq('1.0') }
+      its(:name)      { is_expected.to eq('My Service') }
+      its(:code_name) { is_expected.to eq('service') }
+      its(:version)   { is_expected.to eq('1.0') }
     end
 
-    pending 'proxy operations'
+    skip 'proxy operations'
 
     context 'messages' do
       it 'should correctly load messages' do
-        subject.messages.keys.should include('InvalidJsonError', 'UnauthorizedOperationError',
+        expect(subject.messages.keys).to include('InvalidJsonError', 'UnauthorizedOperationError',
                                              'VerificationNotFoundError', 'BlankConfirmPathError')
       end
 
       it 'correctly loads a particular message (InvalidJsonError)' do
         message = subject.messages['InvalidJsonError']
 
-        message.status_code.should == 422
-        message.level.should == 'error'
-        message.description.should == 'Invalid json.'
+        expect(message.status_code).to eq(422)
+        expect(message.level).to  eq('error')
+        expect(message.description).to eq('Invalid json.')
       end
 
       it 'should correctly load a particular message (RollbackSuccessful)' do
         message = subject.messages['RollbackSuccessful']
 
-        message.status_code.should eq(200)
-        message.level.should eq('info')
-        message.description.should eq('Rollback Successful.')
+        expect(message.status_code).to eq(200)
+        expect(message.level).to eq('info')
+        expect(message.description).to eq('Rollback Successful.')
       end
 
       describe 'errors' do
@@ -66,7 +66,7 @@ describe Angus::SDoc::DefinitionsReader do
       let(:rollback_payment_multi) { subject.representations.find { |rep| rep.name == 'rollback_payment_multi' } }
 
       it 'correctly loads a particular representation' do
-        rollback_payment_multi.should_not be_nil # Should exists this representation
+        expect(rollback_payment_multi).not_to be_nil # Should exists this representation
       end
 
       it 'should correctly load it\'s fields' do
@@ -78,7 +78,7 @@ describe Angus::SDoc::DefinitionsReader do
           Angus::SDoc::Definitions::RepresentationField.new('token', 'Authorization token.', true, 'string')
         ]
 
-        rollback_payment_multi.fields.should == fields
+        expect(rollback_payment_multi.fields).to eq(fields)
       end
     end
 
@@ -88,25 +88,25 @@ describe Angus::SDoc::DefinitionsReader do
       let(:create_multi_buy) { subject.operation_definition(namespace, 'create_multi_buy') }
 
       it 'correctly loads a particular operation' do
-        create_multi_buy.should_not be_nil
+        expect(create_multi_buy).not_to be_nil
       end
 
       it 'correctly loads it\'s name' do
-        create_multi_buy.name.should eq('Create multi-item buy.')
+        expect(create_multi_buy.name).to eq('Create multi-item buy.')
       end
 
       it 'correctly loads it\'s description' do
         description = 'Begins buy process.'
 
-        create_multi_buy.description.should include(description)
+        expect(create_multi_buy.description).to include(description)
       end
 
       it 'correctly loads it\'s path' do
-        create_multi_buy.path.should eq('/multi_buy')
+        expect(create_multi_buy.path).to eq('/multi_buy')
       end
 
       it 'correctly loads it\'s method' do
-        create_multi_buy.http_method.should eq('post')
+        expect(create_multi_buy.http_method).to eq('post')
       end
 
       it 'correctly loads it\'s requests' do
@@ -115,16 +115,15 @@ describe Angus::SDoc::DefinitionsReader do
           Angus::SDoc::Definitions::RequestElement.new('operation', 'Operation Data', true, 'multi_buy'),
         ]
 
-        create_multi_buy.request_elements.should eq(request_elements)
+        expect(create_multi_buy.request_elements).to eq(request_elements)
       end
 
-      pending 'messages'
+      skip 'messages'
 
-      pending 'response'
+      skip 'response'
     end
 
-    pending 'glossary'
-
+    skip 'glossary'
   end
 
 end

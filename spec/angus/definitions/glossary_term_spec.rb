@@ -6,36 +6,36 @@ describe Angus::SDoc::Definitions::GlossaryTerm do
   include JsonRepresentations::GlossaryTerms
 
   describe 'attributes' do
-    it { should have_attribute(:short_name) }
-    it { should have_attribute(:long_name) }
-    it { should have_attribute(:description) }
+    it { is_expected.to have_attribute(:short_name) }
+    it { is_expected.to have_attribute(:long_name) }
+    it { is_expected.to have_attribute(:description) }
   end
 
-  subject(:glossary_term) { FactoryGirl.build(:glossary_term) }
+  subject(:glossary_term) { FactoryBot.build(:glossary_term) }
 
   describe '#==' do
     let(:other) { subject.dup }
 
-    it { should_not eq(Object.new)}
+    it { is_expected.not_to eq(Object.new)}
 
-    it { should eq(other)}
+    it { is_expected.to eq(other)}
 
     it 'returns false if have different short names' do
       other.short_name = "#{glossary_term.short_name}--"
 
-      subject.should_not eq(other)
+      is_expected.not_to eq(other)
     end
 
     it 'returns false if have different long names' do
       other.long_name = "#{glossary_term.long_name}--"
 
-      subject.should_not eq(other)
+      is_expected.not_to eq(other)
     end
 
     it 'returns false if have different descriptions' do
       other.description = "#{glossary_term.description}--"
 
-      subject.should_not eq(other)
+      is_expected.not_to eq(other)
     end
 
     it 'returns true when the have the same attributes' do
@@ -43,7 +43,7 @@ describe Angus::SDoc::Definitions::GlossaryTerm do
                                                                   glossary_term.long_name,
                                                                   glossary_term.description)
 
-      subject.should eq(other_object)
+      is_expected.to eq(other_object)
     end
 
   end

@@ -6,17 +6,18 @@ SimpleCov.start
 require 'angus/sdoc'
 
 require 'rspec'
+require 'rspec/its'
 require 'json_expressions/rspec'
-require 'factory_girl'
+require 'factory_bot'
 
 require 'simplecov-rcov'
 require 'simplecov-rcov-text'
 
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   SimpleCov::Formatter::HTMLFormatter,
   SimpleCov::Formatter::RcovFormatter,
   SimpleCov::Formatter::RcovTextFormatter
-]
+])
 
 Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each { |f| require f }
 
@@ -29,7 +30,7 @@ RSpec.configure do |config|
   config.order = 'random'
 
   config.before(:suite) do
-    FactoryGirl.find_definitions
+    FactoryBot.find_definitions
   end
 
 end

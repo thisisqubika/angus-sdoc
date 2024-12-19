@@ -13,10 +13,10 @@ describe Angus::SDoc::Definitions::Service do
     it { should have_attribute(:glossary) }
   end
 
-  pending '#message'
-  pending '#merge'
-  pending '#operation_definition'
-  pending '#proxy_operations_for'
-  pending '#representations_hash'
+  skip '#message'
+  skip '#merge'
+  skip '#operation_definition'
+  skip '#proxy_operations_for'
+  skip '#representations_hash'
 
 end

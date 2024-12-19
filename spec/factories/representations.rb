@@ -1,10 +1,10 @@
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :representation, :class => Angus::SDoc::Definitions::Representation do
-    name      'user'
+    name { 'user' }
 
     factory :full_representation do
-      fields    { [FactoryGirl.build(:single_representation_field)] }
+      fields { [FactoryBot.build(:single_representation_field)] }
     end
   end
 
