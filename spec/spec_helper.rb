@@ -1,7 +1,22 @@
 require 'bundler/setup'
 
 require 'simplecov'
-SimpleCov.start
+require 'simplecov-rcov'
+require 'simplecov-rcov-text'
+
+SimpleCov.start do
+  add_filter '/config/'
+  add_filter '/db/'
+  add_filter '/log/'
+  add_filter '/spec/'
+  add_filter '.simplecov'
+
+  formatter SimpleCov::Formatter::MultiFormatter.new([
+    SimpleCov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::RcovFormatter,
+    SimpleCov::Formatter::RcovTextFormatter
+  ])
+end
 
 require 'angus/sdoc'
 
@@ -9,15 +24,6 @@ require 'rspec'
 require 'rspec/its'
 require 'json_expressions/rspec'
 require 'factory_bot'
-
-require 'simplecov-rcov'
-require 'simplecov-rcov-text'
-
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-  SimpleCov::Formatter::HTMLFormatter,
-  SimpleCov::Formatter::RcovFormatter,
-  SimpleCov::Formatter::RcovTextFormatter
-])
 
 Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each { |f| require f }
 

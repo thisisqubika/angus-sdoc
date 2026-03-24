@@ -1,4 +1,3 @@
-# coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
@@ -20,7 +19,6 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.5'
 
   spec.files         = Dir.glob('{lib}/**/*')
-  spec.test_files    = spec.files.grep(%r{^(spec)/})
   spec.require_paths = %w[lib]
 
   spec.add_development_dependency('rake')
@@ -32,5 +30,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('simplecov')
   spec.add_development_dependency('simplecov-rcov')
   spec.add_development_dependency('simplecov-rcov-text')
-  spec.add_development_dependency('ci_reporter')
 end
