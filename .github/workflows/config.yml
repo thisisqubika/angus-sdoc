@@ -34,3 +34,16 @@ jobs:
 
       - name: Run tests
         run: bundle exec rspec
+
+  # Single status for branch protection: master requires a check named "Run tests"
+  # (the job name of the previous workflow). It passes only if every matrix job passed.
+  run-tests:
+    name: Run tests
+    needs: tests
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check matrix result
+        run: |
+          echo "matrix result: ${{ needs.tests.result }}"
+          test "${{ needs.tests.result }}" = "success"
