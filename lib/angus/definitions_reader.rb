@@ -68,7 +68,7 @@ module Angus
 
             namespace = File.basename(config_file, '.*')
 
-            result[namespace] = YAML.load_file(config_file) || {}
+            result[namespace] = load_yaml_file(config_file) || {}
           end
 
           Dir["#{base_path}/**/#{OPERATIONS}.yml"].each do |config_file|
@@ -78,7 +78,7 @@ module Angus
               namespace = File.basename(config_file, '.*')
 
               operation_namespace = Pathname.new(File.dirname(config_file)).basename.to_s
-              operation           = YAML.load_file(config_file)
+              operation           = load_yaml_file(config_file)
 
               result[namespace] ||= {}
               result[namespace][operation_namespace] = operation
@@ -88,6 +88,18 @@ module Angus
           result
         end
         private :load_definitions
+
+        # Loads a YML file with the same behavior on Psych 3 and Psych 4: Psych 4 made
+        # YAML.load_file a safe load that rejects aliases and dates.
+        # The definitions are files of the service itself, so they are trusted.
+        def load_yaml_file(path)
+          if YAML.respond_to?(:unsafe_load_file)
+            YAML.unsafe_load_file(path)
+          else
+            YAML.load_file(path)
+          end
+        end
+        private :load_yaml_file
 
         # Builds Definitions::Message objects for each message metadata.
         #
