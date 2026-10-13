@@ -28,6 +28,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('factory_bot', '!= 6.4.5')
   spec.add_development_dependency('json_expressions')
   spec.add_development_dependency('simplecov')
-  spec.add_development_dependency('simplecov-rcov')
-  spec.add_development_dependency('simplecov-rcov-text')
 end
