@@ -1,8 +1,6 @@
 require 'bundler/setup'
 
 require 'simplecov'
-require 'simplecov-rcov'
-require 'simplecov-rcov-text'
 
 SimpleCov.start do
   add_filter '/config/'
@@ -10,12 +8,6 @@ SimpleCov.start do
   add_filter '/log/'
   add_filter '/spec/'
   add_filter '.simplecov'
-
-  formatter SimpleCov::Formatter::MultiFormatter.new([
-    SimpleCov::Formatter::HTMLFormatter,
-    SimpleCov::Formatter::RcovFormatter,
-    SimpleCov::Formatter::RcovTextFormatter
-  ])
 end
 
 require 'angus/sdoc'
