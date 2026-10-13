@@ -14,7 +14,23 @@ describe Angus::SDoc::DefinitionsReader do
       its(:version)   { is_expected.to eq('1.0') }
     end
 
-    skip 'proxy operations'
+    context 'proxy operations' do
+      let(:get_user) { subject.proxy_operations.find { |op| op.code_name == 'get_user' } }
+
+      it 'correctly loads all the proxy operations' do
+        expect(subject.proxy_operations.map(&:code_name)).to match_array(%w[get_user create_session])
+      end
+
+      it 'correctly loads a particular proxy operation' do
+        expect(get_user.path).to eq('/users/:user_id')
+        expect(get_user.http_method).to eq('get')
+        expect(get_user.service_name).to eq('auth')
+      end
+
+      it 'can be filtered by service' do
+        expect(subject.proxy_operations_for('auth').size).to eq(2)
+      end
+    end
 
     context 'messages' do
       it 'should correctly load messages' do
@@ -36,6 +52,26 @@ describe Angus::SDoc::DefinitionsReader do
         expect(message.status_code).to eq(200)
         expect(message.level).to eq('info')
         expect(message.description).to eq('Rollback Successful.')
+      end
+
+      it 'correctly loads the message text and fields' do
+        message = subject.messages['InvalidFieldsError']
+
+        expect(message.text).to eq('There are invalid fields.')
+        expect(message.fields.map(&:name)).to eq(%w[email tags])
+      end
+
+      it 'correctly loads the attributes of a message field' do
+        field = subject.messages['InvalidFieldsError'].fields.last
+
+        expect(field.description).to eq('The user tags')
+        expect(field.type).to eq('array')
+        expect(field.elements_type).to eq('string')
+        expect(field.required).to eq(false)
+      end
+
+      it 'loads an empty list of fields when the message has none' do
+        expect(subject.messages['InvalidJsonError'].fields).to eq([])
       end
 
       describe 'errors' do
@@ -118,12 +154,48 @@ describe Angus::SDoc::DefinitionsReader do
         expect(create_multi_buy.request_elements).to eq(request_elements)
       end
 
-      skip 'messages'
+      it 'correctly loads it\'s messages' do
+        keys = create_multi_buy.messages.map(&:key)
 
-      skip 'response'
+        expect(keys).to eq(%w[InvalidJsonError UnauthorizedOperationError ApplicationNotFoundError
+                              InvalidTokenError InvalidPublicKeyError InvalidOperationError])
+      end
+
+      it 'takes the messages attributes from the service messages' do
+        message = create_multi_buy.messages.first
+
+        expect(message.status_code).to eq(422)
+        expect(message.level).to eq('error')
+        expect(message.description).to eq('Invalid json.')
+      end
+
+      # build_message is called with 5 arguments (the fields are missing) when the operation
+      # references a message that is not defined in messages.yml, so it raises ArgumentError.
+      skip 'builds the message of an operation that is not defined in the service messages'
+
+      it 'correctly loads it\'s response' do
+        response_elements = create_multi_buy.response_elements
+
+        expect(response_elements.size).to eq(1)
+        expect(response_elements.first.name).to eq('process_id')
+        expect(response_elements.first.description).to eq('Process Id')
+        expect(response_elements.first.required).to eq(false)
+        expect(response_elements.first.type).to eq('string')
+      end
     end
 
-    skip 'glossary'
+    context 'glossary' do
+      it 'correctly loads all the terms' do
+        expect(subject.glossary.terms.map(&:short_name)).to eq(%w[fic an doc_type doc_nbr dob])
+      end
+
+      it 'correctly loads a particular term' do
+        term = subject.glossary.terms_hash['fic']
+
+        expect(term.long_name).to eq('financial_institution_code')
+        expect(term.description).to eq('Financial institution code')
+      end
+    end
   end
 
 end
