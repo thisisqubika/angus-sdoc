@@ -15,6 +15,8 @@ require 'angus/sdoc'
 require 'rspec'
 require 'rspec/its'
 require 'json_expressions/rspec'
+# JRuby 9.4.1.0 only defines Fiber.current after require 'fiber'; i18n 1.15 (via factory_bot -> activesupport) calls it.
+require 'fiber'
 require 'factory_bot'
 
 Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each { |f| require f }
