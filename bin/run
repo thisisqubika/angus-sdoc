@@ -1,8 +1,16 @@
-#!/usr/bin/env bash
+#!/bin/sh
+# Builds the image for one Ruby and opens a shell in it with the source mounted.
+#   RUBY_VERSION=2.6 bin/run
+# Only lib/ and spec/ are mounted: the Gemfile.lock and the installed gems stay
+# the ones resolved inside the image for its Ruby. Changing dependencies needs a rebuild.
+RUBY_VERSION=${RUBY_VERSION:-3.4}
+TAG="angus-sdoc:${RUBY_VERSION}"
 
-docker build -t angus-sdoc .
+docker build \
+  --build-arg RUBY_VERSION="$RUBY_VERSION" \
+  -t "$TAG" . || exit 1
 
-(docker stop angus-sdoc) || true
-(docker rm angus-sdoc) || true
-
-docker run -it --name angus-sdoc -v ${PWD}:/home/angus-sdoc angus-sdoc bash
+docker run --rm -it \
+  -v "${PWD}/lib:/home/angus-sdoc/lib" \
+  -v "${PWD}/spec:/home/angus-sdoc/spec" \
+  "$TAG" bash
