@@ -137,3 +137,19 @@ AlreadyRollbackedError:
   status_code: 422
   level: error
   description: Already Rollbacked.
+
+InvalidFieldsError:
+  status_code: 422
+  level: error
+  description: Invalid fields.
+  text: There are invalid fields.
+  fields:
+    - name: email
+      description: The user email
+      type: string
+      required: true
+    - name: tags
+      description: The user tags
+      type: array
+      elements_type: string
+      required: false

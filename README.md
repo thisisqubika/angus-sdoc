@@ -5,7 +5,29 @@ the angus structure), and generate an object representation of that documentatio
 
 ## Requirements
 
-* Ruby >= 1.9
+* Ruby >= 2.5
+
+The gem has no runtime dependencies. It is consumed by services running very different
+stacks, from Ruby 2.6 and JRuby 9.3 up to Ruby 3.4 and JRuby 9.4, and **every version those
+services run in production is tested by the CI matrix** on every pull request:
+
+| Runtime | Versions tested | Used by |
+|---------|-----------------|---------|
+| MRI     | 2.5, 2.6, 2.7, 3.0, 3.1, 3.2, 3.3, 3.4 | angus and the services |
+| JRuby   | 9.3.14.0 | billing, external-commerce |
+| JRuby   | 9.4.1.0  | auth-service, billing-public-proxy, epos-service, epos-public-proxy, infonet-cobranzas, vpos-service |
+| JRuby   | 9.4.5.0  | audit, commerce, commerces-app, notification-service, pix-service |
+
+The mapping from JRuby version to services is also in `.github/workflows/config.yml`.
+
+## Branches
+
+`master` is the only branch of this gem. Point your Gemfile at the repository without a
+`branch:` option and Bundler follows it:
+
+``` ruby
+gem 'angus-sdoc', git: 'git@github.com:thisisqubika/angus-sdoc.git'
+```
 
 ## Installation
 
@@ -120,6 +142,34 @@ service.version       # The version of the service.
 Angus::SDoc::HtmlFormatter.format_service(service)
 
 ```
+
+## Development
+
+There is no committed `Gemfile.lock`: this is a gem, so each environment resolves its own
+dependencies.
+
+### Using Local Ruby
+
+``` sh
+bundle install
+bundle exec rspec
+```
+
+### Using Docker
+
+`bin/run` builds the image for one Ruby and opens a shell with `lib/` and `spec/` mounted
+(`RUBY_VERSION` selects the Ruby, 3.4 by default). The lockfile and the gems stay the ones
+resolved inside the image. Without the script:
+
+``` sh
+RUBY_VERSION=2.5 bin/run
+
+# or, to just run the specs on Ruby 3.4
+docker build --build-arg RUBY_VERSION=3.4 -t angus-sdoc .
+docker run --rm angus-sdoc bundle exec rspec
+```
+
+The CI also uploads the coverage report as an artifact (`coverage-report`) for Ruby 3.4.
 
 ## Contributing
 
