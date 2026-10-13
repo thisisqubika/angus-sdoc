@@ -22,6 +22,19 @@ jobs:
         os: [ubuntu-latest]
         ruby: ['2.5', '2.6', '2.7', '3.0', '3.1', '3.2', '3.3', '3.4']
 
+        include:
+          # JRuby: the exact versions the services run in production.
+          # setup-ruby ships x64 builds for ubuntu-24.04 only from JRuby 9.4.8.0 on; older
+          # versions (9.3, 9.4.1.0, 9.4.5.0) have to run on ubuntu-22.04.
+          #
+          # 9.3.14.0: billing, external-commerce
+          - { os: ubuntu-22.04, ruby: 'jruby-9.3.14.0' }
+          # 9.4.1.0: auth-service, billing-public-proxy, epos-service, epos-public-proxy,
+          #          infonet-cobranzas, vpos-service
+          - { os: ubuntu-22.04, ruby: 'jruby-9.4.1.0' }
+          # 9.4.5.0: audit, commerce, commerces-app, notification-service, pix-service
+          - { os: ubuntu-22.04, ruby: 'jruby-9.4.5.0' }
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
