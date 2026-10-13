@@ -98,6 +98,22 @@ describe Angus::SDoc::DefinitionsReader do
       end
     end
 
+    context 'with YAML aliases and dates' do
+      let(:base_path) { "#{fixtures_path}/definitions_with_aliases" }
+
+      it 'resolves the aliases' do
+        message = subject.messages['InvalidTokenError']
+
+        expect(message.status_code).to eq(422)
+        expect(message.level).to eq('error')
+        expect(message.description).to eq('Invalid token.')
+      end
+
+      it 'loads the dates' do
+        expect(subject.messages['ExpiredTokenError'].description).to eq(Date.new(2026, 1, 1))
+      end
+    end
+
     context 'representations' do
       let(:rollback_payment_multi) { subject.representations.find { |rep| rep.name == 'rollback_payment_multi' } }
 
