@@ -1,0 +1,13 @@
+InvalidJsonError: &default
+  status_code: 422
+  level: error
+  description: Invalid json.
+
+InvalidTokenError:
+  <<: *default
+  description: Invalid token.
+
+ExpiredTokenError:
+  <<: *default
+  status_code: 403
+  description: 2026-01-01

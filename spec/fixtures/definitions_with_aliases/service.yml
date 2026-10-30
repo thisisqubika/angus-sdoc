@@ -1,0 +1,3 @@
+service: Aliased Service
+code_name: aliased
+version: '1.0'

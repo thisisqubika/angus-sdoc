@@ -1,33 +1,73 @@
 name: Gem Validations
 
+# Runs once per commit: on pull requests, and on master after a merge. Running on every
+# branch push as well would bill the whole matrix twice for each push to an open PR.
 on:
   push:
-    branches:
-      - '**'
+    branches: [master]
+  pull_request:
+
+# A new push to the same branch cancels the run still in progress for the previous one.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   tests:
-    name: 'Run tests'
-    runs-on: ubuntu-latest
-
+    name: Ruby ${{ matrix.ruby }}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        ruby-version: ['3.3', '3.2', '3.1', '3.0', '2.7', '2.6', '2.5']
+        os: [ubuntu-latest]
+        ruby: ['2.5', '2.6', '2.7', '3.0', '3.1', '3.2', '3.3', '3.4']
+        include:
+          # JRuby: the exact versions the services run in production.
+          # setup-ruby ships x64 builds for ubuntu-24.04 only from JRuby 9.4.8.0 on; older
+          # versions (9.3, 9.4.1.0, 9.4.5.0) have to run on ubuntu-22.04.
+          #
+          # 9.3.14.0: billing, external-commerce
+          - { os: ubuntu-22.04, ruby: 'jruby-9.3.14.0' }
+          # 9.4.1.0: auth-service, billing-public-proxy, epos-service, epos-public-proxy,
+          #          infonet-cobranzas, vpos-service
+          - { os: ubuntu-22.04, ruby: 'jruby-9.4.1.0' }
+          # 9.4.5.0: audit, commerce, commerces-app, notification-service, pix-service
+          - { os: ubuntu-22.04, ruby: 'jruby-9.4.5.0' }
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Ruby ${{ matrix.ruby-version }}
+      - name: Set up Ruby ${{ matrix.ruby }}
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby-version }}
-          bundler: default
-          rubygems: default
-
-      - name: Install dependencies
-        run: bundle install
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
 
       - name: Run tests
         run: bundle exec rspec
+
+      - name: Add coverage to the job summary
+        if: matrix.ruby == '3.4'
+        run: |
+          ruby -rjson -e 'pct = JSON.parse(File.read("coverage/.last_run.json"))["result"]["line"]; puts "### Line coverage: #{pct}%"' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the coverage report
+        if: matrix.ruby == '3.4'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+
+  # Single status for branch protection: master requires a check named "Run tests"
+  # (the job name of the previous workflow). It passes only if every matrix job passed.
+  run-tests:
+    name: Run tests
+    needs: tests
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check matrix result
+        run: |
+          echo "matrix result: ${{ needs.tests.result }}"
+          test "${{ needs.tests.result }}" = "success"

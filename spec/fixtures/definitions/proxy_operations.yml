@@ -1,0 +1,9 @@
+get_user:
+  path: /users/:user_id
+  method: get
+  service: auth
+
+create_session:
+  path: /sessions
+  method: post
+  service: auth
