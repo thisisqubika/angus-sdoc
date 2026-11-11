@@ -34,19 +34,13 @@ gem 'angus-sdoc', git: 'git@github.com:thisisqubika/angus-sdoc.git'
 Add this line to your application's Gemfile:
 
 ``` ruby
-gem 'angus-sdoc', '~> 1.0.0'
+gem 'angus-sdoc', git: 'git@github.com:thisisqubika/angus-sdoc.git'
 ```
 
 And then execute:
 
 ``` sh
 $ bundle
-```
-
-Or install it yourself as:
-
-``` sh
-$ gem install angus-sdoc
 ```
 
 ## Usage
