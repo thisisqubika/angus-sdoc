@@ -24,7 +24,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        # ubuntu-latest is now 26.04, where setup-ruby has no builds for Ruby 2.5 to 3.1.
+        os: [ubuntu-22.04]
         ruby: ['2.5', '2.6', '2.7', '3.0', '3.1', '3.2', '3.3', '3.4']
         include:
           # JRuby: the exact versions the services run in production.
