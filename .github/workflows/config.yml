@@ -16,6 +16,11 @@ jobs:
   tests:
     name: Ruby ${{ matrix.ruby }}
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      statuses: write       # commit status "coverage"
+      pull-requests: write  # comentario de coverage en la PR
+      actions: read
     strategy:
       fail-fast: false
       matrix:
@@ -44,20 +49,32 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
 
+      # continue-on-error en 3.4: la action de coverage tiene que correr aunque
+      # fallen los tests; el job queda en rojo en el último step.
       - name: Run tests
+        id: tests
+        continue-on-error: ${{ matrix.ruby == '3.4' }}
         run: bundle exec rspec
 
-      - name: Add coverage to the job summary
-        if: matrix.ruby == '3.4'
-        run: |
-          ruby -rjson -e 'pct = JSON.parse(File.read("coverage/.last_run.json"))["result"]["line"]; puts "### Line coverage: #{pct}%"' >> "$GITHUB_STEP_SUMMARY"
+      # La action corre solo en Ruby 3.4 para que haya un único comentario y un único
+      # commit status "coverage" por PR.
+      - name: Coverage
+        if: matrix.ruby == '3.4' && !cancelled()
+        uses: bancardsa/coverage-action@9ae20e1968f82ec5f8995c82805693da598acf16 # v1.0.0
+        with:
+          tests-outcome: ${{ steps.tests.outcome }}
 
-      - name: Upload the coverage report
-        if: matrix.ruby == '3.4'
+      - name: Upload coverage report
+        if: matrix.ruby == '3.4' && !cancelled()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage/
+          path: coverage
+          retention-days: 14
+
+      - name: Fail if tests failed
+        if: matrix.ruby == '3.4' && !cancelled() && steps.tests.outcome != 'success'
+        run: exit 1
 
   # Single status for branch protection: master requires a check named "Run tests"
   # (the job name of the previous workflow). It passes only if every matrix job passed.
