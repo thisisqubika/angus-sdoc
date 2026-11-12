@@ -34,19 +34,13 @@ gem 'angus-sdoc', git: 'git@github.com:thisisqubika/angus-sdoc.git'
 Add this line to your application's Gemfile:
 
 ``` ruby
-gem 'angus-sdoc', '~> 1.0.0'
+gem 'angus-sdoc', git: 'git@github.com:thisisqubika/angus-sdoc.git'
 ```
 
 And then execute:
 
 ``` sh
 $ bundle
-```
-
-Or install it yourself as:
-
-``` sh
-$ gem install angus-sdoc
 ```
 
 ## Usage
@@ -169,7 +163,9 @@ docker build --build-arg RUBY_VERSION=3.4 -t angus-sdoc .
 docker run --rm angus-sdoc bundle exec rspec
 ```
 
-The CI also uploads the coverage report as an artifact (`coverage-report`) for Ruby 3.4.
+Coverage is measured with SimpleCov (configured in `.simplecov`) and the report is written
+to `coverage/`. On Ruby 3.4 the CI publishes it with `bancardsa/coverage-action` (a comment
+and a commit status on the pull request) and uploads it as the `coverage-report` artifact.
 
 ## Contributing
 
